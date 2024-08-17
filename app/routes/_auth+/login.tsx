@@ -27,9 +27,11 @@ import { Label } from "@/components/ui/label"
 
 const schema = z.object({
   email: z
-    .string({ required_error: "Please enter email to continue" })
-    .email("Please enter a valid email"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+    .string({
+      required_error: "Por favor, entre com seu e-mail para continuar",
+    })
+    .email("Por favor, entre com um e-mail válido"),
+  password: z.string().min(8, "Senha deve ter no mínimo 8 caracteres"),
 })
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -42,7 +44,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export const meta: MetaFunction = mergeMeta(
   // these will override the parent meta
   () => {
-    return [{ title: "Login" }]
+    return [{ title: "Entrar" }]
   }
 )
 
@@ -64,7 +66,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         ctx.addIssue({
           path: ["email"],
           code: z.ZodIssueCode.custom,
-          message: "Either email or password is incorrect",
+          message: "E-mail ou senha incorretos",
         })
         return
       }
@@ -106,14 +108,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       case "INVALID_PASSWORD":
         return {
           ...submission,
-          error: { email: ["Either email or password is incorrect"] },
+          error: { email: ["E-mail ou senha incorretos"] },
         }
       case "GOOGLE_SIGNUP":
         return {
           ...submission,
           error: {
             email: [
-              "You have already signed up with google. Please use google to login",
+              "Você já possui uma conta com o google. Por favor, use o google para entrar.",
             ],
           },
         }
@@ -145,16 +147,16 @@ export default function Login() {
   return (
     <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-        Sign in to your account
+        Entre com sua conta
       </h2>
       <div className="mt-10 w-full sm:mx-auto">
         <Form className="space-y-6" method="post" {...form.props}>
           <AuthenticityTokenInput />
           <div>
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email">Endereço de e-mail</Label>
             <div className="mt-2">
               <Input
-                placeholder="michael@scott.com"
+                placeholder="seu@email.com"
                 id="email"
                 type="email"
                 autoComplete="email"
@@ -166,7 +168,7 @@ export default function Login() {
 
           <div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Senha</Label>
             </div>
             <div className="mt-2">
               <Input
@@ -188,7 +190,7 @@ export default function Login() {
             {isSigningInWithEmail && (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign in
+            Entrar
           </Button>
         </Form>
         <Form action="/auth/google" method="post" className="mt-4">
@@ -199,22 +201,22 @@ export default function Login() {
             variant="outline"
           >
             <span className="flex items-center space-x-2">
-              <GoogleLogo height={18} /> <span>Sign in with Google</span>
+              <GoogleLogo height={18} /> <span>Entre com Google</span>
             </span>
           </Button>
         </Form>
         <div className="mt-5 flex justify-between">
           <p className="flex-grow text-sm text-muted-foreground">
-            Not a member?{" "}
+            Não é um membro?{" "}
             <NavLink to="/signup">
               <Button size="sm" variant="link" className="px-1">
-                Sign up
+                Criar Conta
               </Button>
             </NavLink>
           </p>
           <NavLink to="/forgot-password">
             <Button variant="link" size="sm">
-              Forgot Password
+              Esqueceu sua senha
             </Button>
           </NavLink>
         </div>

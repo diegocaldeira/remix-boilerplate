@@ -107,3 +107,17 @@ model Subscription {
   @@index([customerId], name: "customerId")
   @@index([subscriptionId], name: "subscriptionId")
 }
+
+model Feature {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  keyname        String
+  name           String
+  description    String?
+  observations   String?
+  example        String?
+  isActive       Boolean
+  listOfFeatures Json[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

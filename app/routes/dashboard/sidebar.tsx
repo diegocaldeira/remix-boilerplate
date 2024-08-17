@@ -26,13 +26,13 @@ export function Sidebar({ className }: SidebarProps) {
               <Layers2 className="mr-2 h-4 w-4" />
               Dashboard
             </NavigationLink>
-            <NavigationLink to="test">
+            <NavigationLink to="copywriting">
               <Globe className="mr-2 h-4 w-4" />
-              Analytics
+              Sala de Redação
             </NavigationLink>
             <NavigationLink to="plans">
               <CreditCard className="mr-2 h-4 w-4" />
-              Billing
+              Assinaturas
             </NavigationLink>
           </div>
         </div>

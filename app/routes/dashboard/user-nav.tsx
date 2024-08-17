@@ -44,9 +44,9 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Sua Conta</DropdownMenuItem>
+            <DropdownMenuItem>Planos</DropdownMenuItem>
+            <DropdownMenuItem>Preferências</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
 
@@ -55,7 +55,7 @@ export function UserNav() {
               fetcher.submit({}, { method: "post", action: "/auth/logout" })
             }
           >
-            Log out
+            Desconectar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

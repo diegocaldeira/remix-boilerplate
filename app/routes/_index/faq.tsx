@@ -7,9 +7,12 @@ import {
 
 export default function Faqs() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+    <div
+      style={{ display: "none" }}
+      className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"
+    >
       <h1 className="wrap-balance text-center text-4xl font-medium tracking-tight sm:text-5xl">
-        Frequently Asked{" "}
+        Perguntas Frequentes{" "}
         <span className="bg-gradient-to-br from-white to-[hsla(0,0%,100%,.5)] bg-clip-text text-transparent">
           Questions
         </span>

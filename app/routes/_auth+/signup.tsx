@@ -34,29 +34,31 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export const meta: MetaFunction = mergeMeta(
   // these will override the parent meta
   () => {
-    return [{ title: "Sign up" }]
+    return [{ title: "Criar Conta" }]
   }
 )
 
 const schema = z
   .object({
     email: z
-      .string({ required_error: "Please enter email to continue" })
-      .email("Please enter a valid email"),
-    fullName: z.string({ required_error: "Please enter name to continue" }),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+      .string({
+        required_error: "Por favor, entre com seu e-mail para continuar",
+      })
+      .email("Por favor, entre com um e-mail valido."),
+    fullName: z.string({ required_error: "Por favor, entre com seu nome" }),
+    password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
     confirmPassword: z
       .string()
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Senha deve ter pelo menos 8 caracteres"),
     tocAccepted: z.literal("on", {
-      errorMap: () => ({ message: "You must accept the terms & conditions" }),
+      errorMap: () => ({ message: "Você deve aceitar os termos e condições" }),
     }),
     // tocAccepted: z.string({
     //   required_error: "You must accept the terms & conditions",
     // }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Please make sure your passwords match",
+    message: "Por favor, tenha certeza de que as senhas coincidam.",
     path: ["confirmPassword"],
   })
 
@@ -79,7 +81,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         ctx.addIssue({
           path: ["email"],
           code: z.ZodIssueCode.custom,
-          message: "A user with this email already exists",
+          message: "Um usuário com este e-mail já existe.",
         })
         return
       }
@@ -122,33 +124,33 @@ export default function Signup() {
   return (
     <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
-        Create new account
+        Crie uma conta
       </h2>
       <div className="mt-10 w-full sm:mx-auto">
         <Form className="h-full w-full" {...form.props} method="post">
           <AuthenticityTokenInput />
           <div className="w-full space-y-6">
             <div>
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName">Nome</Label>
               <div className="mt-2">
                 <Input
                   error={fullName.error}
                   id="fullName"
                   type="text"
-                  placeholder="Michael Scott"
+                  placeholder="Seu nome completo"
                   required
                   {...conform.input(fullName, { type: "text" })}
                 />
               </div>
             </div>
             <div>
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="email">Endereço de e-mail</Label>
               <div className="mt-2">
                 <Input
                   error={email.error}
                   id="email"
                   type="email"
-                  placeholder="michael@scott.com"
+                  placeholder="seu@email.com"
                   autoComplete="email"
                   {...conform.input(email, { type: "email" })}
                 />
@@ -157,7 +159,7 @@ export default function Signup() {
 
             <div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Senha</Label>
               </div>
               <div className="mt-2">
                 <Input
@@ -173,7 +175,7 @@ export default function Signup() {
 
             <div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirme sua Senha</Label>
               </div>
               <div className="mt-2">
                 <Input
@@ -190,7 +192,7 @@ export default function Signup() {
             <div>
               <div className="flex items-center">
                 <CustomCheckbox
-                  label="Accept terms and conditions"
+                  label="Aceite os termos e condições"
                   id="terms"
                   {...conform.input(tocAccepted, { type: "checkbox" })}
                 />
@@ -206,7 +208,7 @@ export default function Signup() {
               {isSigningUpWithEmail && (
                 <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Sign up
+              Criar Conta
             </Button>
           </div>
         </Form>
@@ -218,17 +220,17 @@ export default function Signup() {
             variant="outline"
           >
             <span className="flex items-center space-x-2">
-              <GoogleLogo height={18} /> <span>Sign up with Google</span>
+              <GoogleLogo height={18} /> <span> Entrar com Google</span>
             </span>
           </Button>
         </Form>
 
         <div className="mt-5 flex justify-center">
           <p className="flex-grow text-center text-sm text-muted-foreground">
-            Already a member?{" "}
+            Já é um membro?{" "}
             <NavLink to="/login">
               <Button size="sm" variant="link" className="px-1">
-                Sign in
+                Entrar
               </Button>
             </NavLink>
           </p>
@@ -270,7 +272,7 @@ function CustomCheckbox({
         htmlFor="terms"
         className="text-xs leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
-        Accept terms and conditions
+        Aceite os termos e condições
       </label>
     </div>
   )

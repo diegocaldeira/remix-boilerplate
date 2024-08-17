@@ -25,8 +25,8 @@ import { Label } from "@/components/ui/label"
 
 const schema = z.object({
   email: z
-    .string({ required_error: "Email is required" })
-    .email("Email is invalid"),
+    .string({ required_error: "Email é necessário" })
+    .email("Email inválido"),
 })
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export const meta: MetaFunction = mergeMeta(
   // these will override the parent meta
   () => {
-    return [{ title: "Forgot Password" }]
+    return [{ title: "Esqueceu sua senha" }]
   }
 )
 
@@ -93,13 +93,13 @@ export default function ForgotPassword() {
           <Form className="space-y-6" method="post" {...form.props}>
             <AuthenticityTokenInput />
             <div>
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="email">Endereço de e-mail</Label>
               <div className="mt-2">
                 <Input
                   id="email"
                   type="email"
                   autoComplete="email"
-                  placeholder="michael@scott.com"
+                  placeholder="seu@email.com"
                   error={email.error}
                   {...conform.input(email, { type: "email" })}
                 />
@@ -123,10 +123,10 @@ export default function ForgotPassword() {
       ) : (
         <div className="mx-auto mt-6 max-w-lg">
           <Alert>
-            <AlertTitle>Link sent successfully!</AlertTitle>
+            <AlertTitle>Seu link foi enviado!</AlertTitle>
             <AlertDescription>
-              Password reset link has been sent to your email. Please check spam
-              folder as well
+              O link de redefinição de senha foi enviado para seu e-mail. Por
+              favor verifique também sua pasta de spam
             </AlertDescription>
           </Alert>
         </div>

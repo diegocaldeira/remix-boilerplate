@@ -26,13 +26,13 @@ import { Label } from "@/components/ui/label"
 
 const schema = z
   .object({
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
     confirmPassword: z
       .string()
-      .min(8, "Password must be at least 8 characters"),
+      .min(8, "Senha deve ter pelo menos 8 caracteres"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Please make sure your passwords match",
+    message: "Por favor, tenha certeza de que as senhas coincidam.",
     path: ["confirmPassword"],
   })
 
@@ -122,16 +122,16 @@ export default function ForgotPassword() {
     return (
       <>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-          Reset Link expired
+          Link para redefinir senha expirou
         </h2>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>Erro</AlertTitle>
             <AlertDescription>
-              Reset link has expired please request new one{" "}
+              Link para redefinir senha expirou. Peça para solicitar um novo{" "}
               <NavLink className="underline" to="/forgot-password">
-                Request new link
+                Solicitar redefinição de senha
               </NavLink>
             </AlertDescription>
           </Alert>
@@ -149,7 +149,7 @@ export default function ForgotPassword() {
           <Form className="space-y-6" method="post" {...form.props}>
             <AuthenticityTokenInput />
             <div>
-              <Label htmlFor="newPassword">New Password</Label>
+              <Label htmlFor="newPassword">Nova Senha</Label>
               <div className="mt-2">
                 <Input
                   id="newPassword"
@@ -162,7 +162,7 @@ export default function ForgotPassword() {
             </div>
 
             <div>
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">Confirme Nova Senha</Label>
               <div className="mt-2">
                 <Input
                   id="confirmPassword"
@@ -183,7 +183,7 @@ export default function ForgotPassword() {
                 {isFormSubmitting && (
                   <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Reset Password
+                Redefinir Senha
               </Button>
             </div>
           </Form>
@@ -201,11 +201,11 @@ export default function ForgotPassword() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
           <Alert variant="default">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Success</AlertTitle>
+            <AlertTitle>Sucesso</AlertTitle>
             <AlertDescription>
-              Your password has been reset successfully.{" "}
+              Sua senha foi redefinida com sucesso.{" "}
               <NavLink className="underline" to="/login">
-                Login
+                Entrar
               </NavLink>
             </AlertDescription>
           </Alert>

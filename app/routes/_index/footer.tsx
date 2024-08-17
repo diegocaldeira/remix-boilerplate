@@ -13,7 +13,7 @@ export default function Footer() {
               <Logo className="h-6" />
             </div>
             <p className="mt-3 text-sm text-gray-700 dark:text-gray-400">
-              476 Shantivan Soc. Rajkot, India
+              Porto Alegre, Rio Grande do Sul - Brasil
             </p>
           </div>
           <div className="mt-6 grid flex-grow grid-cols-3 gap-6 sm:mt-0 sm:grid-cols-3 lg:grid-cols-4">

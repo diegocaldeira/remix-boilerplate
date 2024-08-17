@@ -16,10 +16,10 @@ export function HeroSection() {
           </div>
           <div className="space-x-2">
             <NavLink to="/signup">
-              <Button variant="link">SignUp</Button>
+              <Button variant="link">Criar Conta</Button>
             </NavLink>
             <NavLink to="/login">
-              <Button variant="link">Login</Button>
+              <Button variant="link">Entrar</Button>
             </NavLink>
           </div>
         </div>
@@ -61,17 +61,18 @@ export function HeroSection() {
               <Discountbadge />
             </div>
             <h1 className="wrap-balance mt-6 bg-black bg-gradient-to-br bg-clip-text text-center text-4xl font-medium leading-tight tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-6xl sm:leading-[1.15]">
-              Your tagline goes here
+              As melhores ideias não esperam
             </h1>
             <p className="wrap-balance mt-6 text-center text-lg font-light leading-7 text-gray-700 dark:text-gray-400">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-              quisquam, iusto voluptatem dolore voluptas non laboriosam soluta
-              quos quod eos! Sapiente archit
+              Transforme suas ideias em conteúdo de marketing cativante sem
+              esforço com as ferramentas de escrita. Crie blogs, postagens em
+              mídias sociais e materiais de marketing amigáveis ​​para SEO
+              rapidamente.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <NavLink to="/signup">
                 <Button size="lg" className="px-16">
-                  Get started
+                  Vamos Começar
                 </Button>
               </NavLink>
             </div>

@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const subscription = await getSubscriptionByUserId(user.id)
   if (subscription?.id) return redirect("/dashboard")
   if (!user.customerId)
-    throw new Error("User does not have a Stripe Customer ID.")
+    throw new Error("Usuario nao possui ID de cliente no Stripe.")
 
   // Get client's currency and Free Plan price ID.
   const currency = getUserCurrencyFromRequest(request)
@@ -32,14 +32,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
     (price) =>
       price.interval === PLAN_INTERVALS.MONTHLY && price.currency === currency
   )
-  if (!freePlanPrice) throw new Error("Unable to find Free Plan Price")
+  if (!freePlanPrice)
+    throw new Error("Nao foi possivel encontrar o plano do usuario.")
 
   const stripeSubscription = await createStripeSubscription(
     user.customerId,
     freePlanPrice.stripePriceId
   )
   if (!stripeSubscription)
-    throw new Error("Unable to create Stripe Subscription.")
+    throw new Error("Nao foi possivel criar a assinatura.")
 
   const storedSubscription = await createSubscription({
     customerId: user.customerId || "",
@@ -54,7 +55,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     currentPeriodEnd: stripeSubscription.current_period_end,
     cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
   })
-  if (!storedSubscription) throw new Error("Unable to create Subscription.")
+  if (!storedSubscription)
+    throw new Error("Nao foi possivel criar a assinatura.")
 
   return redirect("/dashboard")
 }

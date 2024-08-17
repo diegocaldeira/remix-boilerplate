@@ -38,10 +38,10 @@ const sendPlanEndNotification = async (id: Subscription["id"]) => {
   if (!subscription) return
   if (subscription.status == "trialing") {
     // TODO: send trial ending soon email
-    console.log("Trial ending soon")
+    console.log("Período de teste terminando em breve.")
   } else {
     // TODO: send trial ending soon email
-    console.log("Plan ending soon")
+    console.log("Plano terminando em breve.")
   }
 }
 

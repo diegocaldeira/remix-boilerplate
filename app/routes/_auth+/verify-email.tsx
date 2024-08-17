@@ -29,12 +29,16 @@ import { Label } from "@/components/ui/label"
 
 const requestCodeSchema = z.object({
   email: z
-    .string({ required_error: "Please enter email to continue" })
-    .email("Please enter a valid email"),
+    .string({
+      required_error: "Por favor, entre com seu e-mail para continuar",
+    })
+    .email("Por favor, entre com um e-mail valido."),
 })
 
 const codeVerificationSchema = z.object({
-  code: z.string({ required_error: "Please enter a verification code" }),
+  code: z.string({
+    required_error: "Por favor, entre com o código de verificação",
+  }),
 })
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -86,8 +90,8 @@ export const meta: MetaFunction = mergeMeta(
   // these will override the parent meta
   () => {
     return buildTags({
-      title: "Verify Email",
-      description: "Verify your email",
+      title: "Verifique seu e-mail",
+      description: "Verifique seu e-mail",
     })
   }
 )
@@ -121,7 +125,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             ctx.addIssue({
               path: ["code"],
               code: z.ZodIssueCode.custom,
-              message: "Please enter a valid code",
+              message: "Por favor, entre com o código de verificação correto.",
             })
             return
           }
@@ -181,10 +185,8 @@ export default function VerifyEmail() {
     return (
       <div className="mt-10">
         <Alert>
-          <AlertTitle>Email successfully!</AlertTitle>
-          <AlertDescription>
-            Email has been verified successfully!
-          </AlertDescription>
+          <AlertTitle>E-mail verificado!</AlertTitle>
+          <AlertDescription>E-mail verificado com sucesso!</AlertDescription>
         </Alert>
       </div>
     )
@@ -194,24 +196,24 @@ export default function VerifyEmail() {
     return (
       <>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-          Enter a verification code
+          Entre com o código de verificação
         </h2>
         {data.codeAvailableWithUser && (
           <p className="mt-10 text-muted-foreground">
-            You must have recieved and email verification code on {data?.email}
+            Você deve ter recebido um e-mail de verificação para {data?.email}.
           </p>
         )}
         <div className="mt-4 w-full sm:mx-auto">
           <Form className="space-y-6" method="post">
             <input type="text" name="intent" defaultValue="verifyCode" hidden />
             <div>
-              <Label htmlFor="code">Verification code</Label>
+              <Label htmlFor="code">Código de verificação</Label>
               <div className="mt-2">
                 <Input
                   id="code"
                   type="code"
                   name="code"
-                  placeholder="Enter verification code"
+                  placeholder="Entre com o código de verificação"
                   error={actionData?.errors?.code?.[0]}
                 />
               </div>
@@ -222,13 +224,13 @@ export default function VerifyEmail() {
                 {isVerifiying && (
                   <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Verify
+                Verificar
               </Button>
             </div>
           </Form>
           <div className="mt-5 flex">
             <p className="flex-grow text-center text-sm text-gray-500">
-              Did not recieve code?
+              Não recebeu o e-mail de verificação?
               <Form method="post">
                 <input
                   type="text"
@@ -246,7 +248,7 @@ export default function VerifyEmail() {
                   hidden
                 />
                 <Button type="submit" size="sm" variant="link" className="px-1">
-                  Request new code
+                  Solicitar novo código
                 </Button>
               </Form>
             </p>
@@ -267,7 +269,7 @@ export default function VerifyEmail() {
               defaultValue="requestCode"
               hidden
             />
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">E-mail</Label>
             <div className="mt-2">
               <Input
                 defaultValue={data.email}
@@ -290,7 +292,7 @@ export default function VerifyEmail() {
               {isFormSubmitting && (
                 <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Request Verification code
+              Solicitar código de verificação
             </Button>
           </div>
         </Form>

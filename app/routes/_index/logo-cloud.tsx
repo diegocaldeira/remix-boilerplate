@@ -3,11 +3,28 @@ export function LogoCloud() {
     <>
       <div className="pb-12 sm:pb-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h1 className="wrap-balance mx-auto mb-10 max-w-3xl text-center text-xl leading-7 text-gray-700 dark:text-gray-400">
-            Sample logos from our customers
+          <h1 className="wrap-balance mx-auto mb-10 max-w-4xl text-center text-xl leading-7">
+            <span class="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+              Livre de Alucinação
+            </span>
+            <span class="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+              Baseado em Fatos
+            </span>
+            <span class="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+              Personalize o Tom
+            </span>
+            <span class="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+              Zero Prompts
+            </span>
+            <span class="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+              Multilínguagem
+            </span>
           </h1>
 
-          <div className="lg::grid-cols-6 mx-auto mt-10 grid max-w-lg grid-cols-2 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-3 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-6">
+          <div
+            style={{ display: "none" }}
+            className="lg::grid-cols-6 mx-auto mt-10 grid max-w-lg grid-cols-2 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-3 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-6"
+          >
             <div className="flex items-center justify-center opacity-70 brightness-0 invert-0 hover:opacity-100 hover:filter-none dark:invert">
               <svg
                 className="h-10 text-black dark:text-white md:h-12"

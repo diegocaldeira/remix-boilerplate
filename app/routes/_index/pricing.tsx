@@ -25,7 +25,7 @@ export const Pricing = () => {
   const [interval, setInterval] = useState<"month" | "year">("month")
 
   return (
-    <div>
+    <div style={{ display: "none" }}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="wrap-balance mt-16 bg-black bg-gradient-to-br bg-clip-text text-center text-4xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
