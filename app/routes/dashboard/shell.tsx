@@ -1,10 +1,12 @@
 import { useState } from "react"
-import { HamburgerMenuIcon } from "@radix-ui/react-icons"
+
+import { Logo } from "@/lib/brand/logo"
+// import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-import { Sidebar } from "./sidebar"
-import { SidebarContext } from "./sidebar.context"
+// import { Sidebar } from "./sidebar"
+// import { SidebarContext } from "./sidebar.context"
 import { ThemeToggle } from "./theme-toggle"
 import { UserNav } from "./user-nav"
 
@@ -13,21 +15,21 @@ type Props = {
 }
 
 export function Shell({ children }: Props) {
-  const [hamMenuOpen, setHamMenuOpen] = useState(false)
+  // const [hamMenuOpen, setHamMenuOpen] = useState(false)
 
-  const closeHamMenu = () => {
-    setHamMenuOpen(false)
-  }
+  // const closeHamMenu = () => {
+  //   setHamMenuOpen(false)
+  // }
 
   return (
     <div className="h-full">
       <div className="flex h-full">
-        <div className="hidden w-72 border-r bg-background md:block">
+        {/* <div className="hidden w-72 border-r bg-background md:block">
           <Sidebar />
-        </div>
+        </div> */}
         <div className="flex-grow">
-          <div className="flex h-14 w-full items-center justify-between border-b px-4 md:justify-end">
-            <div className="flex items-center md:hidden">
+          <div className="flex h-14 w-full items-end justify-between px-4 md:justify-end">
+            {/* <div className="flex items-center md:hidden">
               <Sheet open={hamMenuOpen} onOpenChange={setHamMenuOpen}>
                 <SheetTrigger>
                   <HamburgerMenuIcon height={18} width={18} />
@@ -40,9 +42,11 @@ export function Shell({ children }: Props) {
                   </SidebarContext.Provider>
                 </SheetContent>
               </Sheet>
+            </div> */}
+            <div className="flex h-14 items-center space-x-3 px-8 pt-6">
+              {/* TODO: drive this logo using brand config */}
             </div>
-
-            <div className="flex items-center space-x-2">
+            <div className="flex items-start space-x-3">
               <UserNav />
               <ThemeToggle />
             </div>

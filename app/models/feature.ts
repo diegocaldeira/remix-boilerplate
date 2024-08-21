@@ -16,7 +16,7 @@ export const getFeatureByKeyname = async (keyname: Feature["keyname"]) => {
 
 export const getAllFeatures = async () => {
   return await prisma.feature.findMany({
-    where: { isActive: true },
+    // where: { isActive: true },
     include: {},
   })
 }

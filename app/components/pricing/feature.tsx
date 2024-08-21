@@ -3,11 +3,11 @@ import clsx from "clsx"
 
 export type FeatureType = {
   name: string
-  isAvailable: boolean
+  isActive: boolean
   inProgress: boolean
 }
 
-export const Feature = ({ name, isAvailable, inProgress }: FeatureType) => (
+export const Feature = ({ name, isActive, inProgress }: FeatureType) => (
   <li
     className={clsx(
       inProgress && "text-muted",
@@ -15,7 +15,7 @@ export const Feature = ({ name, isAvailable, inProgress }: FeatureType) => (
     )}
   >
     {/* If in progress return disabled */}
-    {!isAvailable ? (
+    {!isActive ? (
       <Cross2Icon className={"h-6 w-5 flex-none"} aria-hidden="true" />
     ) : (
       <CheckIcon className={"h-6 w-5 flex-none"} aria-hidden="true" />

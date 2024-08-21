@@ -1,5 +1,8 @@
-import { useFetcher, useRouteLoaderData } from "@remix-run/react"
+import { useContext } from "react"
+import { NavLink, useFetcher, useRouteLoaderData } from "@remix-run/react"
+import { CreditCard, Layers2, LogOut, TextSelect } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { type loader as dashboardLoader } from "./route"
+import { SidebarContext } from "./sidebar.context"
 
 export function UserNav() {
   const fetcher = useFetcher()
@@ -44,9 +48,24 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Sua Conta</DropdownMenuItem>
-            <DropdownMenuItem>Planos</DropdownMenuItem>
-            <DropdownMenuItem>Preferências</DropdownMenuItem>
+            <DropdownMenuItem>
+              <NavigationLink to="projects">
+                <Layers2 className="mr-2 h-4 w-4" />
+                Seus Projetos
+              </NavigationLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NavigationLink to="copywriting">
+                <TextSelect className="mr-2 h-4 w-4" />
+                Sala de Redação
+              </NavigationLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <NavigationLink to="plans">
+                <CreditCard className="mr-2 h-4 w-4" />
+                Assinaturas
+              </NavigationLink>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
 
@@ -55,10 +74,41 @@ export function UserNav() {
               fetcher.submit({}, { method: "post", action: "/auth/logout" })
             }
           >
+            <LogOut className="mr-2 h-4 w-4" />
             Desconectar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
+  )
+}
+
+type NavigationLinkProps = {
+  to: string
+  children: React.ReactNode
+}
+
+const NavigationLink = ({ to, children }: NavigationLinkProps) => {
+  const { onNavLinkClick } = useContext(SidebarContext)
+  return (
+    <NavLink
+      to={to}
+      className="block"
+      end
+      onClick={() => {
+        onNavLinkClick?.()
+      }}
+    >
+      {({ isActive }) => (
+        <Button
+          variant="ghost"
+          className={cn("w-full justify-start", {
+            "bg-zinc-100 font-semibold dark:bg-zinc-900": isActive,
+          })}
+        >
+          {children}
+        </Button>
+      )}
+    </NavLink>
   )
 }

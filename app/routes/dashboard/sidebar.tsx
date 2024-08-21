@@ -26,6 +26,10 @@ export function Sidebar({ className }: SidebarProps) {
               <Layers2 className="mr-2 h-4 w-4" />
               Dashboard
             </NavigationLink>
+            <NavigationLink to="projects">
+              <Globe className="mr-2 h-4 w-4" />
+              Projetos
+            </NavigationLink>
             <NavigationLink to="copywriting">
               <Globe className="mr-2 h-4 w-4" />
               Sala de Redação
