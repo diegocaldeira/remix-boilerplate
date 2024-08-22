@@ -94,14 +94,14 @@ export default function FeaturesPage() {
           transform="translate(-108)"
         />
       </svg>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl lg:px-8">
         <div className="mx-auto max-w-7xl px-6 pb-32 pt-2 lg:px-8">
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div className="w-full max-w-xl xl:max-w-2xl">
-              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-6xl">
+              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                 <b>AI Caldeira Copywriting</b>.
               </h1>
-              <p className="text-md font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
+              <p className="font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
                 Quer você seja um profissional de marketing experiente ou esteja
                 apenas começando, nossas ferramentas de IA estão aqui para
                 ajudá-lo a criar textos atraentes com facilidade.
@@ -114,8 +114,9 @@ export default function FeaturesPage() {
                 <b>BAB</b>, <b>AIDA</b> e <b>APP</b>.
               </p>
             </div>
+
             <div className="mt-20 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
-              <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
+              <div className="ml-auto w-1/4 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
@@ -125,7 +126,7 @@ export default function FeaturesPage() {
                   <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
                 </div>
               </div>
-              <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
+              <div className="mr-auto w-1/4 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
@@ -143,7 +144,7 @@ export default function FeaturesPage() {
                   <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
                 </div>
               </div>
-              <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
+              <div className="w-1/4 flex-none space-y-8 pt-32 sm:pt-0">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;crop=left&amp;w=400&amp;h=528&amp;q=80"
@@ -164,6 +165,7 @@ export default function FeaturesPage() {
             </div>
           </div>
         </div>
+
         <div className="max-w-3xl px-6 text-left">
           <TextSelect className="mr-2 h-8 w-8" />
           <h3 className="wrap-balance mt-8 bg-black bg-gradient-to-br bg-clip-text text-left text-3xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
@@ -171,7 +173,7 @@ export default function FeaturesPage() {
           </h3>
         </div>
 
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-3">
+        <div className="isolate mx-auto mt-20 grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-3">
           {features.map((feature) => {
             return (
               <PricingCard key={feature.keyname}>

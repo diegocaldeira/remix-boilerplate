@@ -46,7 +46,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   if (user) {
     if (user.emailVerified) {
-      return redirect("/dashboard")
+      return redirect("/dashboard/projects")
     }
 
     const result = await prisma.verificationCode.findFirst({

@@ -37,7 +37,7 @@ const benefitsFeatures = [
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
-    successRedirect: "/dashboard",
+    successRedirect: "/dashboard/projects",
   })
 
   let plans = await getAllPlans()

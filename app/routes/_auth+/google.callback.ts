@@ -4,7 +4,7 @@ import { authenticator } from "@/services/auth.server"
 
 export let loader = ({ request }: LoaderFunctionArgs) => {
   return authenticator.authenticate("google", request, {
-    successRedirect: "/dashboard",
+    successRedirect: "/dashboard/projects",
     failureRedirect: "/login",
   })
 }

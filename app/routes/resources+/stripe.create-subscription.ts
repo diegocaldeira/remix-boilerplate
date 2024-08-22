@@ -21,7 +21,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!user) return redirect("/login")
 
   const subscription = await getSubscriptionByUserId(user.id)
-  if (subscription?.id) return redirect("/dashboard")
+  if (subscription?.id) return redirect("/dashboard/projects")
   if (!user.customerId)
     throw new Error("Usuario nao possui ID de cliente no Stripe.")
 
@@ -58,5 +58,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!storedSubscription)
     throw new Error("Nao foi possivel criar a assinatura.")
 
-  return redirect("/dashboard")
+  return redirect("/dashboard/projects")
 }

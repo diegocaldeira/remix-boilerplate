@@ -1,7 +1,7 @@
 import { redirect } from "@remix-run/node"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { Form, useLoaderData } from "@remix-run/react"
-import { ArrowRight, Layers2 } from "lucide-react"
+import { FolderKanban, Layers2, Plus } from "lucide-react"
 
 import { authenticator } from "@/services/auth.server"
 import { getProjectByUserId } from "@/models/project"
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
   const { features } = useLoaderData<typeof loader>()
 
   return (
-    <div className="relative isolate overflow-hidden bg-background">
+    <div className="">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="inset-0 z-10 h-full w-full [mask-image:radial-gradient(100%_100%_at_top_right,black,transparent)] dark:[mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
@@ -117,29 +117,20 @@ export default function ProjectsPage() {
           transform="translate(-108)"
         />
       </svg>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl lg:px-8">
         <div className="mx-auto max-w-7xl px-6 pb-32 pt-2 lg:px-8">
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div className="w-full max-w-xl xl:max-w-2xl">
-              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-6xl">
+              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                 <b>Pare de criar conteúdo chato e indiferenciado.</b>
               </h1>
               <p className="font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
                 Obtenha escritores ia especialistas focados no setor para
                 ajudá-lo a construir autoridade e confiança na marca.
               </p>
-              <div className="mt-6 flex items-center gap-x-6">
-                <Form method="post">
-                  <input type="hidden" name="action" value="create" />
-                  <Button className="mt-8 w-full" type="submit">
-                    Novo Projeto
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Form>
-              </div>
             </div>
-            <div className="mt-20 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
-              <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
+            <div className="mt-20 flex justify-end gap-8 sm:justify-start lg:mt-0 lg:pl-0">
+              <div className="ml-auto w-1/4 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
@@ -149,7 +140,8 @@ export default function ProjectsPage() {
                   <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
                 </div>
               </div>
-              <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
+
+              <div className="mr-auto w-1/4 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
@@ -167,7 +159,8 @@ export default function ProjectsPage() {
                   <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
                 </div>
               </div>
-              <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
+
+              <div className="w-1/4 flex-none space-y-8 pt-32 sm:pt-0">
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;crop=left&amp;w=400&amp;h=528&amp;q=80"
@@ -193,8 +186,20 @@ export default function ProjectsPage() {
           <h3 className="wrap-balance mt-8 bg-black bg-gradient-to-br bg-clip-text text-left text-3xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
             <b>Seus Projetos</b>
           </h3>
+          <div className="flex items-center gap-x-6">
+            <Form method="post">
+              <input type="hidden" name="action" value="create" />
+              <Button
+                className="text-md mt-8 bg-purple-100 text-black hover:bg-purple-950 hover:text-white"
+                type="submit"
+              >
+                <Plus className="mr-2 h-5 w-5" />
+                Novo
+              </Button>
+            </Form>
+          </div>
         </div>
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 px-6 lg:max-w-7xl lg:grid-cols-3">
+        <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-8 px-6 lg:max-w-7xl lg:grid-cols-3">
           {features.map((feature) => {
             return (
               <PricingCard key={feature.keyname}>
@@ -210,8 +215,12 @@ export default function ProjectsPage() {
                       value={feature.keyname}
                     />
 
-                    <Button className="mt-8 w-full" type="submit">
-                      Ver Detalhes
+                    <Button
+                      className="mt-8 w-auto bg-purple-100 text-black hover:bg-purple-950 hover:text-white"
+                      type="submit"
+                    >
+                      <FolderKanban className="mr-2 h-5 w-5" />
+                      Gerenciar
                     </Button>
                   </Form>
                 </CTAContainer>

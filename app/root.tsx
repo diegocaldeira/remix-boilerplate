@@ -22,11 +22,8 @@ import buildTags from "./lib/server/seo/seo-utils"
 import { themeSessionResolver } from "./services/session.server"
 import styles from "./tailwind.css?url"
 
-
-export const links:LinksFunction = () => {
-  return [
-    { rel: "stylesheet", href: styles }
-  ];
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }]
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -60,7 +57,7 @@ export function App() {
   const data = useLoaderData<typeof loader>()
   const [theme] = useTheme()
   return (
-    <html lang="en" className={clsx("h-full", theme)}>
+    <html lang="pt-BR" className={clsx("h-full", theme)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

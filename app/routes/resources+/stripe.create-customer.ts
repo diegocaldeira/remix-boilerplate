@@ -13,7 +13,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUserById(session.id)
   if (!user) return redirect("/login")
   if (!user.email || !user.fullName) return redirect("/login")
-  if (user.customerId) return redirect("/dashboard")
+  if (user.customerId) return redirect("/dashboard/projects")
 
   const stripeCustomer = await createStripeCustomer(
     {
@@ -30,5 +30,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // Update user.
   await updateUserById(user.id, { customerId: stripeCustomer.id })
 
-  return redirect("/dashboard")
+  return redirect("/dashboard/projects")
 }

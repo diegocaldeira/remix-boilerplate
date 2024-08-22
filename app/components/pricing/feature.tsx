@@ -34,7 +34,7 @@ type FeatureTitleProps = {
 }
 
 export const FeatureTitle = ({ children }: FeatureTitleProps) => {
-  return <div className="text-base font-semibold leading-8">{children}</div>
+  return <div className="text-base text-lg font-semibold">{children}</div>
 }
 
 type FeatureDescriptionProps = {
@@ -43,7 +43,7 @@ type FeatureDescriptionProps = {
 
 export const FeatureDescription = ({ children }: FeatureDescriptionProps) => {
   return (
-    <p className="wrap-balance mt-4 text-sm font-light leading-5 text-muted-foreground">
+    <p className="wrap-balance mt-1 text-sm font-light leading-5 text-muted-foreground">
       {children}
     </p>
   )

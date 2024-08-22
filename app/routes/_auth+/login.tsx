@@ -37,7 +37,7 @@ const schema = z.object({
 export async function loader({ request }: LoaderFunctionArgs) {
   // If the user is already authenticated redirect to /dashboard directly
   return await authenticator.isAuthenticated(request, {
-    successRedirect: "/dashboard",
+    successRedirect: "/dashboard/projects",
   })
 }
 
@@ -95,7 +95,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     // Todo: make redirect config driven e.g add login success route
     if (user.emailVerified) {
-      return redirect("/dashboard", { headers })
+      return redirect("/dashboard/projects", { headers })
     }
     await sendVerificationCode(user)
     return redirect("/verify-email", { headers })
