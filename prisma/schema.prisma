@@ -152,6 +152,7 @@ model Project {
   description    String?
   observations   String?
   example        String?
+  category       String
   isActive       Boolean
   listOfFeatures Json[]
   featuresItems  FeatureItem[]

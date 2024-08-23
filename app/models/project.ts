@@ -14,6 +14,15 @@ export const getProjectByUserId = async (userId: Project["userId"]) => {
   })
 }
 
+export const getProjectByUserIdAndKeyname = async (
+  keyname: Project["keyname"],
+  userId: Project["userId"]
+) => {
+  return await prisma.project.findMany({
+    where: { keyname: { equals: keyname }, userId: { equals: userId } },
+  })
+}
+
 export const getAllProjects = async () => {
   return await prisma.project.findMany({
     // where: { isActive: true },
