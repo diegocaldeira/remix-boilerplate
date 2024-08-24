@@ -263,7 +263,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   Artigos de Blog
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Compartilhe seu conhecimento e posicione sua marca como líder
+                  do setor. Crie artigos de blog envolventes que eduquem,
+                  inspirem e engajem seu público.
+                </p>
               </div>
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                 <div>
@@ -274,7 +278,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   E-mails
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Aproxime-se dos seus clientes com campanhas de e-mail
+                  personalizadas. Construa conexões fortes e aumente suas
+                  conversões com mensagens eficazes e direcionadas.
+                </p>
               </div>
 
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
@@ -286,7 +294,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   Anúncios
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Capture a atenção do seu público-alvo com anúncios
+                  impactantes. Crie campanhas publicitárias que destacam sua
+                  oferta e geram resultados reais.
+                </p>
               </div>
 
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
@@ -298,7 +310,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   Histórias
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Conecte-se emocionalmente com seu público. Conte histórias
+                  cativantes que ressoam com os valores e desejos de seus
+                  clientes, fortalecendo sua marca.
+                </p>
               </div>
 
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
@@ -310,7 +326,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   Perguntas e Respostas
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Antecipe as dúvidas do seu público e responda com clareza.
+                  Crie sessões de perguntas e respostas que informem e construam
+                  confiança.
+                </p>
               </div>
 
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
@@ -322,7 +342,11 @@ export default function ProjectsPage() {
                 <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
                   Conteúdos para Redes Sociais
                 </h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                  Engaje e cresça sua audiência nas redes sociais. Crie
+                  conteúdos que chamem a atenção, promovam interação e mantenham
+                  sua marca sempre em destaque.
+                </p>
               </div>
             </div>
           </div>
