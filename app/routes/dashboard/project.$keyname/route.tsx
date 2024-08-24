@@ -5,11 +5,21 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, useLoaderData } from "@remix-run/react"
+import { Form, NavLink, useLoaderData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
-import { Check, FolderKanban, FolderPlus } from "lucide-react"
+import {
+  Blocks,
+  BookOpenText,
+  LandPlot,
+  Mail,
+  Megaphone,
+  MessageCircleQuestion,
+  NotebookPen,
+  ScanText,
+  Webhook,
+} from "lucide-react"
 import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -113,8 +123,11 @@ export default function ProjectsPage() {
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
                       Detalhamento Estratégico do Projeto
-                      <span class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500">
-                        <span class="relative text-white">{feature.name}</span>
+                      <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500">
+                        <span className="relative text-white">
+                          {" "}
+                          {feature.name}
+                        </span>
                       </span>
                     </b>
                   </h1>
@@ -177,42 +190,139 @@ export default function ProjectsPage() {
                 </div>
               </div>
             </div>
-            <h1 className="mb-12 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-              Suas Ferramentas
+            <h1 className="mb-12 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
+              <Blocks /> Explore as Melhores Ferramentas de IA
             </h1>
-            <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
+            <div className="grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
+              <NavLink to="/forgot-password">
+                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                  <div>
+                    <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                      <NotebookPen />
+                    </span>
+                  </div>
+                  <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                    AI Writers
+                  </h1>
+                  <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                    Escritores de IA especializados e focados em seu negócio,
+                    nossa ferramenta economiza tempo e esforço e aumenta a
+                    produtividade.
+                  </p>
+                </div>
+              </NavLink>
+              <NavLink to="/dashboard/copywriting">
+                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                  <div>
+                    <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                      <ScanText />
+                    </span>
+                  </div>
+                  <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                    AI Copywriting Tools
+                  </h1>
+                  <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                    Transforme suas ideias em conteúdo de marketing cativante
+                    sem esforço, nossas poderosas ferramentas de IA estão aqui
+                    para ajudá-lo a criar textos atraentes com facilidade.
+                  </p>
+                </div>
+              </NavLink>
+              <NavLink to="/forgot-password">
+                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                  <div>
+                    <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                      <Webhook />
+                    </span>
+                  </div>
+                  <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                    AI Social
+                  </h1>
+                  <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
+                    Descubra o futuro do marketing de mídia social com nossa IA,
+                    crie postagens e legendas sem esforço e eleve sua presença
+                    nas redes sociais.
+                  </p>
+                </div>
+              </NavLink>
+            </div>
+
+            <div className="my-12"></div>
+
+            <h1 className="mb-12 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
+              <LandPlot /> Sugestões de Conteúdo
+            </h1>
+
+            <div className="isolate grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                 <div>
-                  <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                    <FolderKanban />
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <NotebookPen />
                   </span>
                 </div>
-                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white"></h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
-                  AI Writers
-                </p>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  Artigos de Blog
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
               </div>
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                 <div>
-                  <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                    <FolderKanban />
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <Mail />
                   </span>
                 </div>
-                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white"></h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
-                  AI Copywriting Tools
-                </p>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  E-mails
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
               </div>
+
               <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                 <div>
-                  <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                    <FolderKanban />
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <Megaphone />
                   </span>
                 </div>
-                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white"></h1>
-                <p className="text-md mt-2 text-slate-500 dark:text-slate-400">
-                  AI Social
-                </p>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  Anúncios
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+              </div>
+
+              <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div>
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <NotebookPen />
+                  </span>
+                </div>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  Histórias
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+              </div>
+
+              <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div>
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <MessageCircleQuestion />
+                  </span>
+                </div>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  Perguntas e Respostas
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
+              </div>
+
+              <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div>
+                  <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
+                    <Webhook />
+                  </span>
+                </div>
+                <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                  Conteúdos para Redes Sociais
+                </h1>
+                <p className="text-md mt-2 text-slate-500 dark:text-slate-400"></p>
               </div>
             </div>
           </div>
