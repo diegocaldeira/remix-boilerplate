@@ -141,13 +141,15 @@ const checkExecutionStatus = async (executionArn, setExecutionResult) => {
 
 const schema = z.object({
   fab_product_name: z.string({
-    required_error: "Por favor, entre com o nome da marca ou do seu negócio",
+    required_error: "Por favor, entre com o nome do produto ou serviço",
   }),
   fab_product_details: z.string({
-    required_error: "Por favor, entre com os detalhes de seu produto",
+    required_error:
+      "Por favor, destaque as características do produto ou serviço",
   }),
   fab_benefits: z.string({
-    required_error: "Por favor, mencione os benefícios de seu produto",
+    required_error:
+      "Por favor, enfatize os benefícios ou resultados finais experimentados pelo cliente",
   }),
 })
 

@@ -140,12 +140,16 @@ const checkExecutionStatus = async (executionArn, setExecutionResult) => {
 
 const schema = z.object({
   rapport: z.string({
-    required_error: "Por favor, entre com a situação para continuar",
+    required_error: "Por favor, estabeleça uma conexão com seu público-alvo",
   }),
   reasons: z.string({
-    required_error: "Por favor, entre com o nome da marca ou do seu negócio",
+    required_error:
+      "Por favor, entre com as razões lógicas ou justificativas para agir",
   }),
-  results: z.string().min(8, "O resultado deve ter pelo menos 8 caracteres"),
+  results: z.string({
+    required_error:
+      "Por favor, destaque os benefícios e resultados potenciais do seu produto ou serviço",
+  }),
 })
 
 export default function FormulaPage() {

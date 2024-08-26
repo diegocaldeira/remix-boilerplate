@@ -139,15 +139,22 @@ const checkExecutionStatus = async (executionArn, setExecutionResult) => {
 }
 
 const schema = z.object({
-  situation: z.string({
-    required_error: "Por favor, entre com a situação para continuar",
-  }),
   brandname: z.string({
     required_error: "Por favor, entre com o nome da marca ou do seu negócio",
   }),
-  task: z.string().min(8, "A tarefa deve ter pelo menos 8 caracteres"),
-  action: z.string().min(8, "A ação deve ter pelo menos 8 caracteres"),
-  result: z.string().min(8, "O resultado deve ter pelo menos 8 caracteres"),
+  situation: z.string({
+    required_error: "Por favor, defina a situação para continuar",
+  }),
+  action: z.string({
+    required_error: "Por favor, explique a ação a ser tomada",
+  }),
+  task: z.string({
+    required_error:
+      "Por favor, informe a necessidade especifica a ser atendida",
+  }),
+  result: z.string({
+    required_error: "Por favor, informe o benefício alcançado",
+  }),
 })
 
 export default function FormulaPage() {

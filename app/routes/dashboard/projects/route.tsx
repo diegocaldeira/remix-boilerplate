@@ -163,27 +163,14 @@ export default function ProjectsPage() {
             </div>
           </div>
         </div>
-        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-1">
+        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
           <section>
-            <header className="isolate mx-auto flex grid w-full max-w-md grid-cols-1 items-end justify-between space-y-4 bg-white p-4 px-2 sm:px-8 sm:py-6 lg:max-w-7xl lg:grid-cols-1 lg:p-4 xl:px-8 xl:py-6">
-              <form className="group relative">
-                {/* <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500" aria-hidden="true">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
-                </svg> */}
-                <input
-                  className="w-full appearance-none rounded-md py-2 pl-10 text-sm leading-6 text-slate-900 placeholder-slate-400 shadow-sm ring-1 ring-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  type="text"
-                  aria-label="Pesquisar projetos"
-                  placeholder="Pesquisar projetos..."
-                />
-              </form>
-            </header>
-            <ul className="grid grid-cols-1 gap-4 p-4 text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-2 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pb-8 xl:pt-6">
+            <ul className="grid grid-cols-1 gap-4 text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-2 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pb-8 xl:pt-6">
               <li className="flex items-center rounded-lg">
                 <Form method="post" className="h-full w-full">
                   <input type="hidden" name="action" value="create" />
                   <Button
-                    className="h-full w-full rounded-lg border-2 border-dashed border-slate-300 bg-white py-5 text-lg text-lg font-medium leading-6 text-slate-900 hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500"
+                    className="font-ivyora-display h-full w-full rounded-lg border-2 border-dashed border-slate-300 bg-gradient-to-br bg-clip-text py-5 text-4xl text-lg font-medium leading-6 tracking-tight text-white shadow-lg hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500 dark:from-white dark:to-[hsla(0,0%,100%,.5)]"
                     type="submit"
                   >
                     <FolderPlus className="mr-2 h-6 w-6" />

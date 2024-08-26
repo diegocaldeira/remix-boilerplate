@@ -31,8 +31,6 @@ import { prisma } from "@/services/db/db.server"
 import { getProjectByUserIdAndKeyname } from "@/models/project"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 // TODO: to be discussed with Keyur
 declare global {
@@ -122,7 +120,7 @@ export default function ProjectsPage() {
                 <div className="w-full max-w-xl xl:max-w-2xl">
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
-                      Detalhamento Estratégico do Projeto
+                      Detalhamento Estratégico
                       <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500">
                         <span className="relative text-white">
                           {" "}
@@ -190,12 +188,12 @@ export default function ProjectsPage() {
                 </div>
               </div>
             </div>
-            <h1 className="mb-12 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
-              <Blocks /> Explore as Melhores Ferramentas de IA
+            <h1 className="mb-12 ml-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
+              <Blocks /> Ferramentas de IA
             </h1>
             <div className="grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
                       <NotebookPen />
@@ -212,7 +210,7 @@ export default function ProjectsPage() {
                 </div>
               </NavLink>
               <NavLink to="/dashboard/copywriting">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
                       <ScanText />
@@ -229,7 +227,7 @@ export default function ProjectsPage() {
                 </div>
               </NavLink>
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
                       <Webhook />
@@ -249,13 +247,13 @@ export default function ProjectsPage() {
 
             <div className="my-12"></div>
 
-            <h1 className="mb-12 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
+            <h1 className="mb-12 ml-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
               <LandPlot /> Sugestões de Conteúdo
             </h1>
 
             <div className="isolate grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <NotebookPen />
@@ -273,7 +271,7 @@ export default function ProjectsPage() {
               </NavLink>
 
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <Mail />
@@ -290,7 +288,7 @@ export default function ProjectsPage() {
                 </div>
               </NavLink>
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <Megaphone />
@@ -307,7 +305,7 @@ export default function ProjectsPage() {
                 </div>
               </NavLink>
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <NotebookPen />
@@ -325,7 +323,7 @@ export default function ProjectsPage() {
               </NavLink>
 
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <MessageCircleQuestion />
@@ -343,7 +341,7 @@ export default function ProjectsPage() {
               </NavLink>
 
               <NavLink to="/forgot-password">
-                <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-black p-2 text-white shadow-lg">
                       <Webhook />
@@ -358,9 +356,10 @@ export default function ProjectsPage() {
                     mantenham sua marca sempre em destaque.
                   </p>
                 </div>
-                /
               </NavLink>
             </div>
+
+            <div className="my-12"></div>
           </div>
         )
       })}

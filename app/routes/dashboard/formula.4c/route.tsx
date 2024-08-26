@@ -142,8 +142,14 @@ const schema = z.object({
   brandname: z.string({
     required_error: "Por favor, entre com o nome da marca ou do seu negócio",
   }),
-  description: z.string().min(8, "A tarefa deve ter pelo menos 8 caracteres"),
-  ad_details: z.string().min(8, "A ação deve ter pelo menos 8 caracteres"),
+  description: z.string({
+    required_error:
+      "Por favor, conte nos um pouco sobre a sua marca ou do seu negócio",
+  }),
+  ad_details: z.string({
+    required_error:
+      "Por favor, defina os resultados esperados da campanha publicitária.",
+  }),
 })
 
 export default function FormulaPage() {
@@ -227,7 +233,7 @@ export default function FormulaPage() {
                         error={description.error}
                         id="description"
                         type="text"
-                        placeholder=""
+                        placeholder="Ex.: Conquista de Seguidores Ativos. Fortalecimento da Presença Online. Lançamento Inovador 2024."
                         {...conform.input(description, { type: "text" })}
                       />
                     </div>
@@ -245,7 +251,7 @@ export default function FormulaPage() {
                         error={ad_details.error}
                         id="ad_details"
                         type="text"
-                        placeholder="Detalhes da campanha publicitária."
+                        placeholder="Ex.: Conversão de Vendas. Crescimento de Leads Qualificados. Aumento do Engajamento."
                         {...conform.input(ad_details, { type: "text" })}
                       />
                     </div>

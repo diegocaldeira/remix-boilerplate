@@ -143,10 +143,22 @@ const schema = z.object({
   brandname: z.string({
     required_error: "Por favor, entre com o nome da marca ou do seu negócio",
   }),
-  description: z.string().min(8, "A tarefa deve ter pelo menos 8 caracteres"),
-  problem: z.string().min(8, "A ação deve ter pelo menos 8 caracteres"),
-  agitate: z.string().min(8, "O resultado deve ter pelo menos 8 caracteres"),
-  solution: z.string().min(8, "O resultado deve ter pelo menos 8 caracteres"),
+  description: z.string({
+    required_error:
+      "Por favor, conte nos um pouco sobre a sua marca ou do seu negócio",
+  }),
+  problem: z.string({
+    required_error:
+      "Por favor, informe o problema enfrentado pelo seu público-alvo",
+  }),
+  agitate: z.string({
+    required_error:
+      "Por favor, informe quais os impactos negativos do problema a ser atendido",
+  }),
+  solution: z.string({
+    required_error:
+      "Por favor, explique como seu produto resolve ou serviço resolve o problema",
+  }),
 })
 
 export default function FormulaPage() {
