@@ -179,18 +179,6 @@ export default function FeaturesPage() {
               <PricingCard key={feature.keyname}>
                 <FeatureTitle>{feature.name}</FeatureTitle>
                 <FeatureDescription>{feature.description}</FeatureDescription>
-                <FeatureListContainer>
-                  {(feature.listOfFeatures as FeatureType[]).map(
-                    (feature, index) => (
-                      <Feature
-                        key={index}
-                        name={feature.name}
-                        isActive={feature.isActive}
-                        inProgress={feature.inProgress}
-                      />
-                    )
-                  )}
-                </FeatureListContainer>
                 <CTAContainer>
                   <Form method="post">
                     <input

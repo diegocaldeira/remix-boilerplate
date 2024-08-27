@@ -15,6 +15,12 @@ import {
 } from "@aws-sdk/client-sfn"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import ReactMarkdown from "react-markdown"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
@@ -197,17 +203,29 @@ export default function FormulaPage() {
           dangerouslySetInnerHTML={{ __html: feature.description }}
         />
 
-        <div className="mt-12 flex justify-center"></div>
-
-        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-2">
-          <p
-            className="wrap-balance text-md mt-4 text-left font-light leading-7 text-muted-foreground"
-            dangerouslySetInnerHTML={{ __html: feature.observations }}
-          />
-          <p
-            className="wrap-balance text-md mt-4 text-left font-light leading-7 text-muted-foreground"
-            dangerouslySetInnerHTML={{ __html: feature.example }}
-          />
+        <div className="w-full pb-10">
+          <div className="wrap-balance mx-auto mt-4 w-full max-w-lg divide-y divide-white/5 rounded-xl bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+            {feature.listOfFeatures.map((item) => {
+              return (
+                <Disclosure
+                  key={item.id}
+                  as="div"
+                  className="py-3"
+                  defaultOpen={false}
+                >
+                  <DisclosureButton className="group flex w-full items-center justify-between">
+                    <span className="wrap-balance mt-4 bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                      {item.name}
+                    </span>
+                    <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="mt-2 text-sm/5 leading-6">
+                    <p dangerouslySetInnerHTML={{ __html: item.description }} />
+                  </DisclosurePanel>
+                </Disclosure>
+              )
+            })}
+          </div>
         </div>
 
         <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-14 lg:max-w-7xl lg:grid-cols-2">
