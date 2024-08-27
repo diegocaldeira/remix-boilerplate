@@ -188,11 +188,12 @@ export default function ProjectsPage() {
                 </div>
               </div>
             </div>
+
             <h1 className="mb-12 ml-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-white">
               <Blocks /> Ferramentas de IA
             </h1>
             <div className="grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-3">
-              <NavLink to="/forgot-password">
+              <NavLink to="/dashboard/ai-writers">
                 <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
@@ -226,7 +227,7 @@ export default function ProjectsPage() {
                   </p>
                 </div>
               </NavLink>
-              <NavLink to="/forgot-password">
+              <NavLink to="/dashboard/ai-social">
                 <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
                   <div>
                     <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">

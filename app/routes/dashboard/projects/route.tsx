@@ -170,7 +170,7 @@ export default function ProjectsPage() {
                 <Form method="post" className="h-full w-full">
                   <input type="hidden" name="action" value="create" />
                   <Button
-                    className="font-ivyora-display h-full w-full rounded-lg border-2 border-dashed border-slate-300 bg-gradient-to-br bg-clip-text py-5 text-4xl text-lg font-medium leading-6 tracking-tight text-white shadow-lg hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500 dark:from-white dark:to-[hsla(0,0%,100%,.5)]"
+                    className="font-ivyora-display h-full w-full space-y-3 rounded-lg p-4 dark:from-white dark:to-[hsla(0,0%,100%,.5)]"
                     type="submit"
                   >
                     <FolderPlus className="mr-2 h-6 w-6" />
