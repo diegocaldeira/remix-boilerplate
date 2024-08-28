@@ -20,7 +20,7 @@ model User {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   verificationCodeId String?              @db.ObjectId
-  customerId   String?
+  customerId         String?
   PasswordResetToken PasswordResetToken[]
   VerificationCode   VerificationCode[]
   Subscription       Subscription[]
@@ -74,7 +74,7 @@ model PlanLimit {
 
 model Price {
   id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  isActive        Boolean
+  isActive      Boolean
   currency      String
   interval      String
   nickname      String?
@@ -89,28 +89,28 @@ model Price {
 }
 
 model Subscription {
-  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
-  isActive             Boolean
-  status               String
-  cancelAtPeriodEnd    Boolean
-  currentPeriodEnd     BigInt
-  currentPeriodStart   BigInt
-  interval             String
-  customerId           String
-  subscriptionId       String
-  planId               String  @db.ObjectId
-  plan                 Plan    @relation(fields: [planId], references: [id])
-  userId               String  @db.ObjectId
-  user                 User    @relation(fields: [userId], references: [id])
-  priceId              String  @db.ObjectId
-  price                Price   @relation(fields: [priceId], references: [id])
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  isActive           Boolean
+  status             String
+  cancelAtPeriodEnd  Boolean
+  currentPeriodEnd   BigInt
+  currentPeriodStart BigInt
+  interval           String
+  customerId         String
+  subscriptionId     String
+  planId             String  @db.ObjectId
+  plan               Plan    @relation(fields: [planId], references: [id])
+  userId             String  @db.ObjectId
+  user               User    @relation(fields: [userId], references: [id])
+  priceId            String  @db.ObjectId
+  price              Price   @relation(fields: [priceId], references: [id])
 
   @@index([customerId], name: "customerId")
   @@index([subscriptionId], name: "subscriptionId")
 }
 
 model Feature {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   keyname        String
   name           String
   description    String?
@@ -125,7 +125,7 @@ model Feature {
 }
 
 model FeatureItem {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   keyname        String
   name           String
   description    String?
@@ -135,32 +135,82 @@ model FeatureItem {
   listOfFeatures Json[]
   tags           String[]
 
-  featureId               String  @db.ObjectId
-  feature                 Feature    @relation(fields: [featureId], references: [id])
+  featureId String  @db.ObjectId
+  feature   Feature @relation(fields: [featureId], references: [id])
 
-  projectId               String  @db.ObjectId
-  project                 Project    @relation(fields: [projectId], references: [id])
+  projectId String  @db.ObjectId
+  project   Project @relation(fields: [projectId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Project {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   keyname        String
   name           String
   description    String?
   observations   String?
   example        String?
-  category       String
   isActive       Boolean
   listOfFeatures Json[]
   featuresItems  FeatureItem[]
+  categories     Category[]
 
-  userId               String  @db.ObjectId
-  user                 User    @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Category {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  keyname          String
+  icon             String
+  name             String
+  description      String?
+  isActive         Boolean
+  listOfFeatures   Json[]
+  contentGenerated ContentGenerated[]
+
+  projectId String?  @db.ObjectId
+  Project   Project? @relation(fields: [projectId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+}
+
+model Tool {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  keyname          String
+  icon             String
+  name             String
+  description      String?
+  isActive         Boolean
+  contentGenerated ContentGenerated[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContentGenerated {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  keyname     String
+  icon        String
+  name        String
+  description String?
+  title       String?
+  content     String?
+  isActive    Boolean
+
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  toolId String @db.ObjectId
+  tool   Tool   @relation(fields: [toolId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

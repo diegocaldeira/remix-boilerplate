@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client"
 import type { Stripe } from "stripe"
 
+import { DEFAULT_CATEGORY } from "@/services/copywriting/category.config"
 import { DEFAULT_FEATURES } from "@/services/copywriting/features.config"
+import { DEFAULT_TOOLS } from "@/services/copywriting/tools.config"
 import { DEFAULT_PLANS } from "@/services/stripe/plans.config"
 import {
   createStripePrice,
@@ -11,9 +13,58 @@ import {
 const prisma = new PrismaClient()
 
 const seed = async () => {
+  const category = await prisma.category.findMany()
+  const tools = await prisma.tool.findMany()
+  const features = await prisma.feature.findMany()
   const plans = await prisma.plan.findMany()
 
-  const features = await prisma.feature.findMany()
+  if (category.length === 0) {
+    const categoryPromises = Object.values(DEFAULT_CATEGORY).map(
+      async (category) => {
+        const { keyname, icon, name, description, isActive, listOfFeatures } =
+          category
+        await prisma.category.create({
+          data: {
+            keyname,
+            icon,
+            name,
+            description,
+            isActive,
+            listOfFeatures,
+          },
+        })
+        return {
+          response: 200,
+        }
+      }
+    )
+  } else {
+    console.log("Category already seeded")
+    return
+  }
+
+  if (tools.length === 0) {
+    const toolsPromises = Object.values(DEFAULT_TOOLS).map(async (tool) => {
+      const { keyname, icon, name, description, isActive } = tool
+
+      await prisma.tool.create({
+        data: {
+          keyname,
+          icon,
+          name,
+          description,
+          isActive,
+        },
+      })
+
+      return {
+        response: 200,
+      }
+    })
+  } else {
+    console.log("Tools already seeded")
+    return
+  }
 
   if (features.length === 0) {
     const featuresPromises = Object.values(DEFAULT_FEATURES).map(

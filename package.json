@@ -11,7 +11,8 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "seed": "tsx prisma/seed.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prismaformat": "prisma format"
   },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.632.0",

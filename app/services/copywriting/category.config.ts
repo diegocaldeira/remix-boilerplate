@@ -1,4 +1,4 @@
-import type { Category } from "@prisma/client"
+import type { Category, Prisma } from "@prisma/client"
 
 export const enum CATEGORY_TYPES {
   ARTICLE = "article",
@@ -20,7 +20,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Compartilhe seu conhecimento e posicione sua marca como líder do setor. Crie artigos de blog envolventes que eduquem, inspirem e engajem seu público.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -33,7 +33,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Aproxime-se dos seus clientes com campanhas de e-mail personalizadas. Construa conexões fortes e aumente suas conversões com mensagens eficazes e direcionadas.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -46,7 +46,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Capture a atenção do seu público-alvo com anúncios impactantes. Crie campanhas publicitárias que destacam sua oferta e geram resultados reais.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -59,7 +59,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Conecte-se emocionalmente com seu público. Conte histórias cativantes que ressoam com os valores e desejos de seus clientes, fortalecendo sua marca.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -72,7 +72,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Antecipe as dúvidas do seu público e responda com clareza. Crie sessões de perguntas e respostas que informem e construam confiança.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -85,7 +85,7 @@ export const DEFAULT_CATEGORY: {
     description:
       "Engaje e cresça sua audiência nas redes sociais. Crie conteúdos que chamem a atenção, promovam interação e mantenham sua marca sempre em destaque.",
     isActive: true,
-    listOfFeatures: [],
+    listOfFeatures: [] as Prisma.JsonValue[],
     projectId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
