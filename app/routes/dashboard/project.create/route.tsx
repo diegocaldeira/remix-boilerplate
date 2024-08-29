@@ -1,14 +1,21 @@
-import { useId } from "react"
+import { useId, useState } from "react"
 import {
   json,
   redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, useActionData } from "@remix-run/react"
+import { Form, useActionData, useLoaderData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Field,
+} from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { Check } from "lucide-react"
 import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
@@ -18,10 +25,12 @@ import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
+import { getAllCategoriesActive } from "@/models/category"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { TextArea } from "@/components/ui/textarea"
 
 // TODO: to be discussed with Keyur
 declare global {
@@ -39,9 +48,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     failureRedirect: "/login",
   })
 
+  const categories = await getAllCategoriesActive()
+
   const subscription = await getSubscriptionByUserId(session.id)
 
   return {
+    categories,
     subscription,
   }
 }
@@ -108,7 +120,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         keyname: slugify(submission.value.name),
         name: submission.value.name,
         description: submission.value.about,
-        category: submission.value.category,
         userId: session.id,
         isActive: true,
       },
@@ -119,10 +130,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function ProjectsPage() {
+  const { categories } = useLoaderData<typeof loader>()
   const lastSubmission = useActionData<typeof action>()
   const id = useId()
 
-  const [form, { name, about, category }] = useForm({
+  const [form, { name, about }] = useForm({
     id,
     lastSubmission,
     shouldValidate: "onBlur",
@@ -131,6 +143,22 @@ export default function ProjectsPage() {
       return parse(formData, { schema })
     },
   })
+
+  const [selectedItems, setSelectedItems] = useState(["", []])
+
+  const handleCheckboxChange = (itemKey: any) => {
+    setSelectedItems((prevSelectedItems: any) => {
+      if (prevSelectedItems.includes(itemKey)) {
+        // Se o item já está na lista, removê-lo
+        return prevSelectedItems.filter((key: any) => key !== itemKey)
+      } else {
+        // Se o item não está na lista, adicioná-lo
+        return [...prevSelectedItems, itemKey]
+      }
+    })
+  }
+
+  const isItemSelected = (itemKey: any) => selectedItems.includes(itemKey)
 
   return (
     <div className="">
@@ -234,8 +262,20 @@ export default function ProjectsPage() {
         <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-1">
           <Form className="h-full w-full" {...form.props} method="post">
             <AuthenticityTokenInput />
-            <div className="space-y-12">
-              <div className="pb-24">
+
+            <Disclosure
+              key="create-project"
+              as="div"
+              className="rounded-lg border-2 border-slate-200 bg-slate-50 p-7 shadow-xl lg:p-12"
+              defaultOpen={true}
+            >
+              <DisclosureButton className="group flex w-full items-center justify-between">
+                <span className="wrap-balance my-4 bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                  Crie um novo projeto
+                </span>
+                <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+              </DisclosureButton>
+              <DisclosurePanel className="mt-2 py-10 text-sm/5 leading-6">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-6 lg:col-span-3">
                     <div className="flex items-center justify-between">
@@ -262,9 +302,8 @@ export default function ProjectsPage() {
                       <Label htmlFor="about">Descrição</Label>
                     </div>
                     <div className="mt-2">
-                      <Input
+                      <TextArea
                         id="about"
-                        type="textarea"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         defaultValue={""}
                         required
@@ -275,28 +314,48 @@ export default function ProjectsPage() {
                       Escreva um pouco sobre o seu projeto.
                     </p>
                   </div>
-
-                  <div className="sm:col-span-6  lg:col-span-4">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="about">Categoria</Label>
-                    </div>
-                    <div className="mt-2">
-                      <Input
-                        id="category"
-                        type="text"
-                        placeholder=""
-                        autoComplete="category"
-                        className="block w-full rounded-md border-0 py-1.5 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        required
-                        {...conform.input(category, { type: "text" })}
-                      />
-                    </div>
-                    <p className="mt-3 text-sm leading-6 text-gray-600">
-                      Facilite a organização dos seus projetos.
-                    </p>
-                  </div>
                 </div>
+              </DisclosurePanel>
 
+              <DisclosureButton className="group flex w-full items-center justify-between">
+                <span className="wrap-balance my-4 bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                  Organize seus conteúdos
+                </span>
+                <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+              </DisclosureButton>
+              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-2 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
+                {categories.map((item) => {
+                  return (
+                    <Field
+                      key={item.keyname}
+                      className="flex items-start gap-2"
+                    >
+                      <div
+                        key={item.keyname}
+                        onClick={() => handleCheckboxChange(item.keyname)}
+                        className={`flex cursor-pointer items-start gap-2 rounded-xl border p-7 ${
+                          isItemSelected(item.keyname)
+                            ? "border-indigo-400 bg-indigo-100 shadow-md shadow-indigo-400/50"
+                            : "border-gray-300 bg-white"
+                        }`}
+                      >
+                        <div>
+                          <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                            {item.name}
+                          </div>
+                          <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                            {item.description}
+                          </div>
+                        </div>
+                      </div>
+                    </Field>
+                  )
+                })}
+              </DisclosurePanel>
+            </Disclosure>
+
+            <div className="space-y-12">
+              <div className="pb-24">
                 <div className=" mt-16 gap-x-6 border-gray-900/10 lg:col-span-4">
                   <Button
                     type="submit"
