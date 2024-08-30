@@ -16,7 +16,7 @@ import {
   Field,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import { Check } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -266,15 +266,23 @@ export default function ProjectsPage() {
             <Disclosure
               key="create-project"
               as="div"
-              className="rounded-lg border-2 border-slate-200 bg-slate-50 p-7 shadow-xl lg:p-12"
+              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
               defaultOpen={true}
             >
-              <DisclosureButton className="group flex w-full items-center justify-between">
-                <span className="wrap-balance my-4 bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                  Crie um novo projeto
-                </span>
+              <DisclosureButton className="group flex w-full items-start justify-between">
+                <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                  <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                    Crie um novo projeto
+                  </h1>
+                  <small>
+                    Inicie seu projeto fornecendo um nome claro e uma breve
+                    descrição. Isso ajudará você a manter o foco e a orientar
+                    suas campanhas de marketing para resultados impactantes
+                  </small>
+                </div>
                 <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
               </DisclosureButton>
+
               <DisclosurePanel className="mt-2 py-10 text-sm/5 leading-6">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-6 lg:col-span-3">
@@ -318,9 +326,17 @@ export default function ProjectsPage() {
               </DisclosurePanel>
 
               <DisclosureButton className="group flex w-full items-center justify-between">
-                <span className="wrap-balance my-4 bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                  Organize seus conteúdos
-                </span>
+                <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                  <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                    Organize seus conteúdos
+                  </h1>
+                  <small>
+                    Selecione os tipos de conteúdo que deseja criar e agrupar
+                    neste projeto. Organize artigos de blog, e-mails, anúncios,
+                    histórias e mais, tudo em um único lugar para uma gestão
+                    eficaz de suas campanhas.
+                  </small>
+                </div>
                 <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
               </DisclosureButton>
               <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-2 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
@@ -356,13 +372,13 @@ export default function ProjectsPage() {
 
             <div className="space-y-12">
               <div className="pb-24">
-                <div className=" mt-16 gap-x-6 border-gray-900/10 lg:col-span-4">
+                <div className=" mt-10 gap-x-6 border-gray-900/10 lg:col-span-1">
                   <Button
                     type="submit"
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="w-full rounded-md bg-indigo-600 px-3 py-6 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    <Check className="mr-2 h-5 w-5" />
-                    Adicionar
+                    Pronto para começar
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
               </div>
