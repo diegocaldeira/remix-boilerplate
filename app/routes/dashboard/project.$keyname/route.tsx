@@ -337,9 +337,31 @@ export default function ProjectsPage() {
               </DisclosurePanel>
             </Disclosure>
 
-            <div className="my-12"></div>
+            <div className="my-16"></div>
 
-            <Table columns={columns} dataSource={data} onChange={onChange} />
+            <div className="px-4">
+              <header id="header" className="relative z-20 mb-5 py-5">
+                <div>
+                  <div>
+                    <span className="mb-4 inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                      <ScanText />
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
+                      Seus Conteúdos Gerados
+                    </h1>
+                  </div>
+                </div>
+                <p className="mt-2 text-sm text-slate-700 dark:text-slate-400">
+                  Selecione os tipos de conteúdo que deseja criar e agrupar
+                  neste projeto. Organize artigos de blog, e-mails, anúncios,
+                  histórias e mais, tudo em um único lugar para uma gestão
+                  eficaz de suas campanhas.
+                </p>
+              </header>
+              <Table columns={columns} dataSource={data} onChange={onChange} />
+            </div>
           </div>
         )
       })}
