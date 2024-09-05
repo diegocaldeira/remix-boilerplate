@@ -8,9 +8,9 @@ export const getCategoryById = async (id: Category["id"]) => {
   })
 }
 
-export const getCategoryByUserId = async (projectId: Category["projectId"]) => {
-  return await prisma.category.findMany({
-    where: { projectId: { equals: projectId } },
+export const getCategoryByKeyname = async (keyname: Category["keyname"]) => {
+  return await prisma.category.findFirst({
+    where: { keyname: keyname },
   })
 }
 

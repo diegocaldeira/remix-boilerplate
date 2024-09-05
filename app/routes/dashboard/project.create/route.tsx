@@ -16,6 +16,7 @@ import {
   Field,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import type { Category } from "@prisma/client"
 import { ArrowRight } from "lucide-react"
 import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
@@ -25,7 +26,10 @@ import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
-import { getAllCategoriesActive } from "@/models/category"
+import {
+  getAllCategoriesActive,
+  getCategoryByKe1yname,
+} from "@/models/category"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -49,7 +53,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   })
 
   const categories = await getAllCategoriesActive()
-
   const subscription = await getSubscriptionByUserId(session.id)
 
   return {
@@ -72,9 +75,8 @@ const schema = z.object({
   about: z.string({
     required_error: "Por favor, conte um pouco sobre o seu projeto",
   }),
-  category: z.string({
-    required_error:
-      "Por favor, entre com uma categoria para facilitar na organização do seu projeto.",
+  categoriesSelected: z.string({
+    required_error: "Por favor, conte um pouco sobre o seu projeto",
   }),
 })
 
@@ -115,15 +117,35 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (!submission.value || submission.intent !== "submit") {
     return json(submission)
   } else {
-    await prisma.project.create({
-      data: {
-        keyname: slugify(submission.value.name),
-        name: submission.value.name,
-        description: submission.value.about,
-        userId: session.id,
-        isActive: true,
-      },
-    })
+    // const selectedItems = JSON.parse(formData.get("categoriesSelected") as string);
+
+    // const selectedCategories: Category[] = [];
+
+    // for (const item of selectedItems) {
+    //   try {
+    //     const category = await getCategoryByKeyname(item);
+    //     if (category !== undefined && category !== null) {
+    //       selectedCategories.push(category);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error:", error);
+    //   }
+    // }
+
+    await prisma.project
+      .create({
+        data: {
+          keyname: slugify(submission.value.name),
+          name: submission.value.name,
+          description: submission.value.about,
+          userId: session.id,
+          isActive: true,
+        },
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        return json({ error: error.message }, { status: 500 })
+      })
   }
 
   return redirect("/dashboard/projects")
@@ -144,7 +166,7 @@ export default function ProjectsPage() {
     },
   })
 
-  const [selectedItems, setSelectedItems] = useState(["", []])
+  const [selectedItems, setSelectedItems] = useState([])
 
   const handleCheckboxChange = (itemKey: any) => {
     setSelectedItems((prevSelectedItems: any) => {
@@ -261,12 +283,17 @@ export default function ProjectsPage() {
         </div>
         <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-1">
           <Form className="h-full w-full" {...form.props} method="post">
+            <input
+              type="hidden"
+              name="categoriesSelected"
+              value={JSON.stringify(selectedItems)}
+            />
             <AuthenticityTokenInput />
 
             <Disclosure
-              key="create-project"
+              key="general"
               as="div"
-              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
+              className="mb-12 rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
               defaultOpen={true}
             >
               <DisclosureButton className="group flex w-full items-start justify-between">
@@ -324,8 +351,15 @@ export default function ProjectsPage() {
                   </div>
                 </div>
               </DisclosurePanel>
+            </Disclosure>
 
-              <DisclosureButton className="group flex w-full items-center justify-between">
+            <Disclosure
+              key="sugests"
+              as="div"
+              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
+              defaultOpen={false}
+            >
+              <DisclosureButton className="group flex w-full items-start justify-between">
                 <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
                   <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
                     Organize seus conteúdos
@@ -339,7 +373,7 @@ export default function ProjectsPage() {
                 </div>
                 <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
               </DisclosureButton>
-              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-2 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
+              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
                 {categories.map((item) => {
                   return (
                     <Field
@@ -349,7 +383,7 @@ export default function ProjectsPage() {
                       <div
                         key={item.keyname}
                         onClick={() => handleCheckboxChange(item.keyname)}
-                        className={`flex cursor-pointer items-start gap-2 rounded-xl border p-7 ${
+                        className={`flex cursor-pointer items-start gap-2 rounded-xl border p-5 ${
                           isItemSelected(item.keyname)
                             ? "border-indigo-400 bg-indigo-100 shadow-md shadow-indigo-400/50"
                             : "border-gray-300 bg-white"

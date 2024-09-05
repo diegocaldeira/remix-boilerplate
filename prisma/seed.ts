@@ -18,6 +18,16 @@ const seed = async () => {
   const features = await prisma.feature.findMany()
   const plans = await prisma.plan.findMany()
 
+  await prisma.project.create({
+    data: {
+      keyname: "",
+      name: "",
+      description: "",
+      isActive: true,
+      userId: null,
+    },
+  })
+
   if (category.length === 0) {
     const categoryPromises = Object.values(DEFAULT_CATEGORY).map(
       async (category) => {
