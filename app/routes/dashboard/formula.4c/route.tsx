@@ -199,7 +199,7 @@ export default function FormulaPage() {
         />
 
         <div className="w-full pb-10">
-          <div className="wrap-balance mt-4 w-full max-w-lg divide-y divide-white/5 rounded-xl bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+          <div className="wrap-balance mx-auto mt-4 w-full max-w-lg divide-y divide-white/5 rounded-xl bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
             {feature.listOfFeatures.map((item) => {
               return (
                 <Disclosure
@@ -223,7 +223,7 @@ export default function FormulaPage() {
           </div>
         </div>
 
-        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-14 rounded-lg bg-white px-6 py-12 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900 lg:max-w-7xl lg:grid-cols-2">
+        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-14 lg:max-w-7xl lg:grid-cols-2">
           <div className="mt-10 w-full sm:mx-auto">
             <Form className="h-full w-full" method="post" {...form.props}>
               <AuthenticityTokenInput />
@@ -292,7 +292,7 @@ export default function FormulaPage() {
             </Form>
           </div>
 
-          <div className="mt-1 h-full w-full bg-secondary p-7 sm:mx-auto">
+          <div className="mt-10 w-full bg-secondary p-7 sm:mx-auto">
             {executionResult ? (
               <ReactMarkdown>{JSON.parse(executionResult).event}</ReactMarkdown>
             ) : (

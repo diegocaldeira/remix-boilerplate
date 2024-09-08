@@ -1,31 +1,103 @@
+import { useState } from "react"
 import {
-  json,
   redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, NavLink, useLoaderData } from "@remix-run/react"
+import { NavLink, useLoaderData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
-import { parse } from "@conform-to/zod"
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { Table } from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
-import { AuthenticityTokenInput } from "remix-utils/csrf/react"
-import { z } from "zod"
 
-import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
-import { prisma } from "@/services/db/db.server"
 import { getAllCategoriesActive } from "@/models/category"
 import { getProjectByUserIdAndKeyname } from "@/models/project"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
 
+const columns = [
+  {
+    title: "Título",
+    dataIndex: "title",
+    filters: [
+      {
+        text: "Joe",
+        value: "Joe",
+      },
+      {
+        text: "Category 1",
+        value: "Category 1",
+      },
+      {
+        text: "Category 2",
+        value: "Category 2",
+      },
+    ],
+    filterMode: "tree",
+    filterSearch: true,
+    onFilter: (value, record) => record.title.startsWith(value),
+    width: "60%",
+  },
+  {
+    title: "Tags",
+    dataIndex: "tags",
+    filters: [
+      {
+        text: "London",
+        value: "London",
+      },
+      {
+        text: "New York",
+        value: "New York",
+      },
+    ],
+    onFilter: (value, record) => record.tags.startsWith(value),
+    filterSearch: true,
+  },
+]
+const data = [
+  {
+    key: "1",
+    title: "John Brown",
+    content: "New York No. 1 Lake Park",
+    category: 32,
+    tags: "New York No. 1 Lake Park",
+  },
+  {
+    key: "2",
+    title: "Jim Green",
+    content: "New York No. 1 Lake Park",
+    category: 42,
+    tags: "London No. 1 Lake Park",
+  },
+  {
+    key: "3",
+    title: "Joe Black",
+    content: "New York No. 1 Lake Park",
+    category: 32,
+    tags: "Sydney No. 1 Lake Park",
+  },
+  {
+    key: "4",
+    title: "Jim Red",
+    content: "New York No. 1 Lake Park",
+    category: 32,
+    tags: "London No. 2 Lake Park",
+  },
+]
+
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log("params", pagination, filters, sorter, extra)
+}
+
+// TODO: to be discussed with Keyur
 declare global {
   interface BigInt {
     toJSON(): string
@@ -64,50 +136,18 @@ export const meta: MetaFunction = mergeMeta(
   }
 )
 
-const schema = z.object({
-  project: z.string({
-    required_error: "Por favor, entre com o nome do seu projeto.",
-  }),
-  category: z.string({
-    required_error: "Por favor, conte um pouco sobre o seu projeto",
-  }),
-})
-
 export const action = async ({ request }: ActionFunctionArgs) => {
-  await validateCsrfToken(request)
-
-  const clonedRequest = request.clone()
-  const formData = await clonedRequest.formData()
-
-  const session = await authenticator.isAuthenticated(request, {
+  await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
 
-  const submission = await parse(formData, {
-    schema: schema.superRefine(async (data: any) => {
-      return await prisma.project.findFirst({
-        where: {
-          name: data.project,
-          userId: session.id,
-        },
-        select: { id: true },
-      })
-    }),
-    async: true,
-  })
+  console.log("creating a new project")
 
-  if (!submission.value || submission.intent !== "submit") {
-    return json(submission)
-  } else {
-    console.log("selecting project with id: " + submission.value.project)
-    console.log("selecting category with id: " + submission.value.category)
-  }
-
-  return redirect("/dashboard/project/" + submission.value.project)
+  return redirect("/dashboard/projects")
 }
 
 export default function ProjectsPage() {
-  const { categories, features } = useLoaderData<typeof loader>()
+  const { features } = useLoaderData<typeof loader>()
 
   return (
     <div className="">
@@ -148,7 +188,7 @@ export default function ProjectsPage() {
                 <div className="w-full max-w-xl xl:max-w-2xl">
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
-                      Detalhamento Estratégico
+                      Seus Conteúdos Gerados
                       <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500 md:text-6xl lg:text-6xl">
                         <span className="relative text-white">
                           {" "}
@@ -236,71 +276,11 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <Disclosure
-              key="sugests"
-              as="div"
-              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
-              defaultOpen={true}
-            >
-              <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                <header id="header" className="relative z-20 py-5">
-                  <div>
-                    <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
-                      O que vamos criar hoje?
-                    </p>
-                    <div className="flex items-center">
-                      <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
-                        Organize seus conteúdos
-                      </h1>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
-                    Selecione os tipos de conteúdo que deseja criar e agrupar
-                    neste projeto. Organize artigos de blog, e-mails, anúncios,
-                    histórias e mais, tudo em um único lugar para uma gestão
-                    eficaz de suas campanhas.
-                  </p>
-                </header>
-                <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
-              </DisclosureButton>
-              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-3">
-                {categories.map((item) => {
-                  return (
-                    <Form
-                      key={feature.keyname}
-                      method="post"
-                      action={"/dashboard/project/" + feature.keyname}
-                    >
-                      <input
-                        type="hidden"
-                        name="project"
-                        value={feature.keyname}
-                      />
-
-                      <input
-                        type="hidden"
-                        name="category"
-                        value={item.keyname}
-                      />
-
-                      <AuthenticityTokenInput />
-
-                      <Button
-                        type="submit"
-                        className="h-full w-full rounded-lg bg-indigo-600 p-10 shadow-xl hover:bg-indigo-900"
-                      >
-                        <h1 className="text-xl font-medium">{item.name}</h1>
-                        <p className="hidden text-sm text-slate-500 dark:text-slate-400">
-                          {item.description}
-                        </p>
-                      </Button>
-                    </Form>
-                  )
-                })}
-              </DisclosurePanel>
-            </Disclosure>
-
             <div className="my-16"></div>
+
+            <div className="px-4">
+              <Table columns={columns} dataSource={data} onChange={onChange} />
+            </div>
           </div>
         )
       })}

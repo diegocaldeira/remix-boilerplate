@@ -1,11 +1,11 @@
-import { useId, useState } from "react"
+import { useId } from "react"
 import {
   json,
   redirect,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, useActionData, useLoaderData } from "@remix-run/react"
+import { Form, useActionData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
@@ -13,10 +13,8 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Field,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import type { Category } from "@prisma/client"
 import { ArrowRight } from "lucide-react"
 import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
@@ -26,10 +24,7 @@ import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
-import {
-  getAllCategoriesActive,
-  getCategoryByKe1yname,
-} from "@/models/category"
+import { getAllCategoriesActive } from "@/models/category"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -117,21 +112,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (!submission.value || submission.intent !== "submit") {
     return json(submission)
   } else {
-    // const selectedItems = JSON.parse(formData.get("categoriesSelected") as string);
-
-    // const selectedCategories: Category[] = [];
-
-    // for (const item of selectedItems) {
-    //   try {
-    //     const category = await getCategoryByKeyname(item);
-    //     if (category !== undefined && category !== null) {
-    //       selectedCategories.push(category);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error:", error);
-    //   }
-    // }
-
     await prisma.project
       .create({
         data: {
@@ -152,7 +132,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function ProjectsPage() {
-  const { categories } = useLoaderData<typeof loader>()
   const lastSubmission = useActionData<typeof action>()
   const id = useId()
 
@@ -165,22 +144,6 @@ export default function ProjectsPage() {
       return parse(formData, { schema })
     },
   })
-
-  const [selectedItems, setSelectedItems] = useState([])
-
-  const handleCheckboxChange = (itemKey: any) => {
-    setSelectedItems((prevSelectedItems: any) => {
-      if (prevSelectedItems.includes(itemKey)) {
-        // Se o item já está na lista, removê-lo
-        return prevSelectedItems.filter((key: any) => key !== itemKey)
-      } else {
-        // Se o item não está na lista, adicioná-lo
-        return [...prevSelectedItems, itemKey]
-      }
-    })
-  }
-
-  const isItemSelected = (itemKey: any) => selectedItems.includes(itemKey)
 
   return (
     <div className="">
@@ -350,57 +313,6 @@ export default function ProjectsPage() {
                     </p>
                   </div>
                 </div>
-              </DisclosurePanel>
-            </Disclosure>
-
-            <Disclosure
-              key="sugests"
-              as="div"
-              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
-              defaultOpen={false}
-            >
-              <DisclosureButton className="group flex w-full items-start justify-between">
-                <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                  <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                    Organize seus conteúdos
-                  </h1>
-                  <small>
-                    Selecione os tipos de conteúdo que deseja criar e agrupar
-                    neste projeto. Organize artigos de blog, e-mails, anúncios,
-                    histórias e mais, tudo em um único lugar para uma gestão
-                    eficaz de suas campanhas.
-                  </small>
-                </div>
-                <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
-              </DisclosureButton>
-              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
-                {categories.map((item) => {
-                  return (
-                    <Field
-                      key={item.keyname}
-                      className="flex items-start gap-2"
-                    >
-                      <div
-                        key={item.keyname}
-                        onClick={() => handleCheckboxChange(item.keyname)}
-                        className={`flex cursor-pointer items-start gap-2 rounded-xl border p-5 ${
-                          isItemSelected(item.keyname)
-                            ? "border-indigo-400 bg-indigo-100 shadow-md shadow-indigo-400/50"
-                            : "border-gray-300 bg-white"
-                        }`}
-                      >
-                        <div>
-                          <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                            {item.name}
-                          </div>
-                          <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                            {item.description}
-                          </div>
-                        </div>
-                      </div>
-                    </Field>
-                  )
-                })}
               </DisclosurePanel>
             </Disclosure>
 
