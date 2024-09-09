@@ -1,3 +1,4 @@
+import React, { useState } from "react"
 import {
   json,
   redirect,
@@ -13,6 +14,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { Button as AntButton, message, Steps, theme } from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -25,6 +27,21 @@ import { getAllCategoriesActive } from "@/models/category"
 import { getProjectByUserIdAndKeyname } from "@/models/project"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
+
+const steps = [
+  {
+    title: "Organize seus Conteúdos",
+    content: "First-content",
+  },
+  {
+    title: "Ferramentas de IA",
+    content: "Second-content",
+  },
+  {
+    title: "Gerar Conteúdo",
+    content: "Last-content",
+  },
+]
 
 declare global {
   interface BigInt {
@@ -108,6 +125,31 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function ProjectsPage() {
   const { categories, features } = useLoaderData<typeof loader>()
+  const { token } = theme.useToken()
+  const [current, setCurrent] = useState(0)
+
+  const next = () => {
+    setCurrent(current + 1)
+  }
+
+  const prev = () => {
+    setCurrent(current - 1)
+  }
+
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+  }))
+
+  const contentStyle = {
+    lineHeight: "260px",
+    textAlign: "center",
+    color: token.colorTextTertiary,
+    backgroundColor: token.colorFillAlter,
+    borderRadius: token.borderRadiusLG,
+    border: `1px dashed ${token.colorBorder}`,
+    marginTop: 16,
+  }
 
   return (
     <div className="">
@@ -236,69 +278,168 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <Disclosure
-              key="sugests"
-              as="div"
-              className="rounded-lg border-2 border-slate-200 p-7 shadow-xl lg:p-12"
-              defaultOpen={true}
-            >
-              <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                <header id="header" className="relative z-20 py-5">
-                  <div>
-                    <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
-                      O que vamos criar hoje?
-                    </p>
-                    <div className="flex items-center">
-                      <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
-                        Organize seus conteúdos
-                      </h1>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
-                    Selecione os tipos de conteúdo que deseja criar e agrupar
-                    neste projeto. Organize artigos de blog, e-mails, anúncios,
-                    histórias e mais, tudo em um único lugar para uma gestão
-                    eficaz de suas campanhas.
-                  </p>
-                </header>
-                <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
-              </DisclosureButton>
-              <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-3">
-                {categories.map((item) => {
-                  return (
-                    <Form
-                      key={feature.keyname}
-                      method="post"
-                      action={"/dashboard/project/" + feature.keyname}
-                    >
-                      <input
-                        type="hidden"
-                        name="project"
-                        value={feature.keyname}
-                      />
+            <Steps current={current} items={items} className="mt-12" />
 
-                      <input
-                        type="hidden"
-                        name="category"
-                        value={item.keyname}
-                      />
-
-                      <AuthenticityTokenInput />
-
-                      <Button
-                        type="submit"
-                        className="h-full w-full rounded-lg bg-indigo-600 p-10 shadow-xl hover:bg-indigo-900"
-                      >
-                        <h1 className="text-xl font-medium">{item.name}</h1>
-                        <p className="hidden text-sm text-slate-500 dark:text-slate-400">
-                          {item.description}
+            <div style={contentStyle}>
+              {current === 0 && (
+                <Disclosure
+                  key="sugests"
+                  as="div"
+                  className="rounded-lg p-7 shadow-xl lg:p-12"
+                  defaultOpen={true}
+                >
+                  <DisclosureButton className="group flex w-full items-start justify-between text-left">
+                    <header id="header" className="relative z-20 py-5">
+                      <div>
+                        <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
+                          O que vamos criar hoje?
                         </p>
-                      </Button>
-                    </Form>
-                  )
-                })}
-              </DisclosurePanel>
-            </Disclosure>
+                        <div className="flex items-center">
+                          <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
+                            Organize seus conteúdos
+                          </h1>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
+                        Selecione os tipos de conteúdo que deseja criar e
+                        agrupar neste projeto. Organize artigos de blog,
+                        e-mails, anúncios, histórias e mais, tudo em um único
+                        lugar para uma gestão eficaz de suas campanhas.
+                      </p>
+                    </header>
+                    <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-3">
+                    {categories.map((item) => {
+                      return (
+                        <Form
+                          key={feature.keyname}
+                          method="post"
+                          action={"/dashboard/project/" + feature.keyname}
+                        >
+                          <input
+                            type="hidden"
+                            name="project"
+                            value={feature.keyname}
+                          />
+
+                          <input
+                            type="hidden"
+                            name="category"
+                            value={item.keyname}
+                          />
+
+                          <AuthenticityTokenInput />
+
+                          <Button
+                            type="submit"
+                            className="h-full w-full rounded-lg bg-indigo-600 p-10 shadow-xl hover:bg-indigo-900"
+                          >
+                            <h1 className="text-xl font-medium">{item.name}</h1>
+                            <p className="hidden text-sm text-slate-500 dark:text-slate-400">
+                              {item.description}
+                            </p>
+                          </Button>
+                        </Form>
+                      )
+                    })}
+                  </DisclosurePanel>
+                </Disclosure>
+              )}
+
+              {current === 1 && (
+                <div className="grid grid-cols-3 gap-12 p-7 lg:p-12">
+                  <div className="col-auto">
+                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                      <div>
+                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                          <ScanText />
+                        </span>
+                      </div>
+                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        AI Copywriting
+                      </h1>
+                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                        Transforme suas ideias em conteúdo de marketing
+                        cativante sem esforço, nossas poderosas ferramentas de
+                        IA estão aqui para ajudá-lo a criar textos atraentes com
+                        facilidade.
+                      </p>
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                  </div>
+                  <div className="col-auto">
+                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                      <div>
+                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                          <NotebookPen />
+                        </span>
+                      </div>
+                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        AI Writers
+                      </h1>
+                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                        Escritores de IA especializados e focados em seu
+                        negócio, nossa ferramenta economiza tempo e esforço e
+                        aumenta a produtividade.
+                      </p>
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                  </div>
+
+                  <div className="col-auto">
+                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                      <div>
+                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
+                          <Webhook />
+                        </span>
+                      </div>
+                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        AI Social
+                      </h1>
+                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                        Descubra o futuro do marketing de mídia social com nossa
+                        IA, crie postagens e legendas sem esforço e eleve sua
+                        presença nas redes sociais.
+                      </p>
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div
+              style={{
+                marginTop: 24,
+              }}
+            >
+              {current < steps.length - 1 && (
+                <AntButton type="primary" onClick={() => next()}>
+                  Próximo
+                </AntButton>
+              )}
+
+              {current === steps.length - 1 && (
+                <AntButton
+                  type="primary"
+                  onClick={() => message.success("Processing complete!")}
+                >
+                  Pronto
+                </AntButton>
+              )}
+
+              {current > 0 && (
+                <AntButton
+                  style={{
+                    margin: "0 8px",
+                  }}
+                  onClick={() => prev()}
+                >
+                  Voltar
+                </AntButton>
+              )}
+            </div>
 
             <div className="my-16"></div>
           </div>
