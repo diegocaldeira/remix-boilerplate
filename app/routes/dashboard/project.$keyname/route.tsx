@@ -289,14 +289,14 @@ export default function ProjectsPage() {
                   defaultOpen={true}
                 >
                   <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                    <header id="header" className="relative z-20 p-8">
+                    <header id="header" className="relative z-20 p-2 lg:p-8">
                       <div>
                         <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
                           O que vamos criar hoje?
                         </p>
                         <div className="flex items-center">
                           <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
-                            Organize seus conteúdos
+                            Organize seus Conteúdos
                           </h1>
                         </div>
                       </div>
@@ -310,7 +310,7 @@ export default function ProjectsPage() {
                     </header>
                     <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                   </DisclosureButton>
-                  <DisclosurePanel className="isolate mx-auto grid max-w-md grid-cols-1 px-0 py-5 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
+                  <DisclosurePanel className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-0 py-5 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
                     {categories.map((item) => {
                       return (
                         <Form
@@ -340,7 +340,7 @@ export default function ProjectsPage() {
                                 onClick={() => next()}
                               >
                                 <div className="flex items-center space-x-3">
-                                  <h1 className="text-lg font-semibold text-slate-900 group-hover:text-white">
+                                  <h1 className="text-wrap text-lg font-semibold text-slate-900 group-hover:text-white">
                                     {item.name}
                                   </h1>
                                 </div>
@@ -365,7 +365,7 @@ export default function ProjectsPage() {
                   defaultOpen={true}
                 >
                   <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                    <header id="header" className="relative z-20 p-8">
+                    <header id="header" className="relative z-20 p-2 lg:p-8">
                       <div>
                         <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
                           Ferramentas de escrita
@@ -379,16 +379,20 @@ export default function ProjectsPage() {
                       <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
                         Transforme suas ideias em conteúdo de marketing
                         cativante sem esforço com as ferramentas de escritas de
-                        IA. <br />
-                        Somos o seu parceiro para inovação e crescimento. <br />
+                        IA.
+                      </p>
+                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
+                        Somos o seu parceiro para inovação e crescimento.
+                      </p>
+                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
                         Gaste menos tempo planejando e mais tempo construindo
-                        seu negócio. <br />
+                        seu negócio.
                         <div className="max-w-7xl">
-                          <h1 className="wrap-balance mt-10 max-w-4xl text-left text-xl leading-7">
+                          <h1 className="my-6 text-left text-xl leading-7">
                             <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
                               Livre de Alucinação
                             </span>
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 text-wrap rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
                               Baseado em Fatos
                             </span>
                             <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
