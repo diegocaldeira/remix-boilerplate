@@ -289,7 +289,7 @@ export default function ProjectsPage() {
                   defaultOpen={true}
                 >
                   <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                    <header id="header" className="relative z-20 py-5">
+                    <header id="header" className="relative z-20 p-8">
                       <div>
                         <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
                           O que vamos criar hoje?
@@ -302,14 +302,15 @@ export default function ProjectsPage() {
                       </div>
                       <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
                         Selecione os tipos de conteúdo que deseja criar e
-                        agrupar neste projeto. Organize artigos de blog,
-                        e-mails, anúncios, histórias e mais, tudo em um único
-                        lugar para uma gestão eficaz de suas campanhas.
+                        agrupar neste projeto. <br />
+                        Organize artigos de blog, e-mails, anúncios, histórias e
+                        mais, tudo em um único lugar para uma gestão eficaz de
+                        suas campanhas.
                       </p>
                     </header>
                     <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                   </DisclosureButton>
-                  <DisclosurePanel className="isolate mx-auto mt-2 grid max-w-md grid-cols-1 gap-8 px-0 py-10 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-3">
+                  <DisclosurePanel className="isolate mx-auto grid max-w-md grid-cols-1 px-0 py-5 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
                     {categories.map((item) => {
                       return (
                         <Form
@@ -331,15 +332,24 @@ export default function ProjectsPage() {
 
                           <AuthenticityTokenInput />
 
-                          <Button
-                            type="submit"
-                            className="h-full w-full rounded-lg bg-pink-500 p-10 shadow-xl hover:bg-pink-900"
-                          >
-                            <h1 className="text-xl font-medium">{item.name}</h1>
-                            <p className="hidden text-sm text-slate-500 dark:text-slate-400">
-                              {item.description}
-                            </p>
-                          </Button>
+                          <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pb-8 xl:pt-6">
+                            <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-6 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
+                              <Button
+                                className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
+                                type="submit"
+                                onClick={() => next()}
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <h1 className="text-lg font-semibold text-slate-900 group-hover:text-white">
+                                    {item.name}
+                                  </h1>
+                                </div>
+                                <p className="text-wrap text-sm text-slate-400 group-hover:text-white">
+                                  {item.description}
+                                </p>
+                              </Button>
+                            </li>
+                          </ul>
                         </Form>
                       )
                     })}
@@ -348,53 +358,103 @@ export default function ProjectsPage() {
               )}
 
               {current === 1 && (
-                <div className="grid gap-12 p-7 text-left lg:grid-cols-3 lg:p-12">
-                  <div className="col-auto">
-                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                        <NotebookPen />
-                        AI Writers
-                      </h1>
-                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                        Escritores de IA especializados e focados em seu
-                        negócio, nossa ferramenta economiza tempo e esforço e
-                        aumenta a produtividade.
-                      </p>
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                  </div>
-
-                  <div className="col-auto">
-                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                        <ScanText />
-                        AI Copywriting
-                      </h1>
-                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                <Disclosure
+                  key="tools"
+                  as="div"
+                  className="rounded-lg p-7 shadow-xl lg:p-12"
+                  defaultOpen={true}
+                >
+                  <DisclosureButton className="group flex w-full items-start justify-between text-left">
+                    <header id="header" className="relative z-20 p-8">
+                      <div>
+                        <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
+                          Ferramentas de escrita
+                        </p>
+                        <div className="flex items-center">
+                          <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
+                            Crie o melhor conteúdo de IA para o seu negócio.
+                          </h1>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
                         Transforme suas ideias em conteúdo de marketing
-                        cativante sem esforço, nossas poderosas ferramentas de
-                        IA estão aqui para ajudá-lo a criar textos atraentes com
-                        facilidade.
+                        cativante sem esforço com as ferramentas de escritas de
+                        IA. <br />
+                        Somos o seu parceiro para inovação e crescimento. <br />
+                        Gaste menos tempo planejando e mais tempo construindo
+                        seu negócio. <br />
+                        <div className="max-w-7xl">
+                          <h1 className="wrap-balance mt-10 max-w-4xl text-left text-xl leading-7">
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                              Livre de Alucinação
+                            </span>
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                              Baseado em Fatos
+                            </span>
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                              Personalize o Tom
+                            </span>
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                              Zero Prompts
+                            </span>
+                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
+                              Multilínguagem
+                            </span>
+                          </h1>
+                        </div>
                       </p>
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                  </div>
+                    </header>
+                    <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
+                    <div className="grid gap-12 text-left lg:grid-cols-3 lg:p-8">
+                      <div className="col-auto">
+                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                            <NotebookPen />
+                            AI Writers
+                          </h1>
+                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                            Escritores de IA especializados e focados em seu
+                            negócio, nossa ferramenta economiza tempo e esforço
+                            e aumenta a produtividade.
+                          </p>
+                        </div>
+                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                      </div>
 
-                  <div className="col-auto">
-                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                        <Webhook />
-                        AI Social
-                      </h1>
-                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                        Descubra o futuro do marketing de mídia social com nossa
-                        IA, crie postagens e legendas sem esforço e eleve sua
-                        presença nas redes sociais.
-                      </p>
+                      <div className="col-auto">
+                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                            <ScanText />
+                            AI Copywriting
+                          </h1>
+                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                            Transforme suas ideias em conteúdo de marketing
+                            cativante sem esforço, crie textos atraentes com
+                            facilidade.
+                          </p>
+                        </div>
+                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                      </div>
+
+                      <div className="col-auto">
+                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                            <Webhook />
+                            AI Social
+                          </h1>
+                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                            O futuro do marketing de mídia social. Crie
+                            postagens e legendas sem esforço e eleve sua
+                            presença nas redes sociais.
+                          </p>
+                        </div>
+                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                      </div>
                     </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                  </div>
-                </div>
+                  </DisclosurePanel>
+                </Disclosure>
               )}
             </div>
 
