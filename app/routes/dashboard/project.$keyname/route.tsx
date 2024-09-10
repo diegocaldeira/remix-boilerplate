@@ -34,12 +34,8 @@ const steps = [
     content: "First-content",
   },
   {
-    title: "Ferramentas de IA",
+    title: "Escolha sua Ferramentas de IA",
     content: "Second-content",
-  },
-  {
-    title: "Gerar Conteúdo",
-    content: "Last-content",
   },
 ]
 
@@ -91,6 +87,7 @@ const schema = z.object({
 })
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const [current, setCurrent] = useState(0)
   await validateCsrfToken(request)
 
   const clonedRequest = request.clone()
@@ -118,6 +115,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   } else {
     console.log("selecting project with id: " + submission.value.project)
     console.log("selecting category with id: " + submission.value.category)
+    if (submission.value.category != "") {
+      setCurrent(current + 1)
+    }
   }
 
   return redirect("/dashboard/project/" + submission.value.project)
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
       {features.map((feature) => {
         return (
           <div key={feature.id} className="mx-auto max-w-7xl lg:px-8">
-            <div className="mx-auto max-w-7xl px-4 pb-24 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 lg:px-8 lg:pb-32">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="w-full max-w-xl xl:max-w-2xl">
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
@@ -278,7 +278,7 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <Steps current={current} items={items} className="mt-12" />
+            <Steps current={current} items={items} className="mt-2" />
 
             <div style={contentStyle}>
               {current === 0 && (
@@ -333,7 +333,7 @@ export default function ProjectsPage() {
 
                           <Button
                             type="submit"
-                            className="h-full w-full rounded-lg bg-indigo-600 p-10 shadow-xl hover:bg-indigo-900"
+                            className="h-full w-full rounded-lg bg-pink-500 p-10 shadow-xl hover:bg-pink-900"
                           >
                             <h1 className="text-xl font-medium">{item.name}</h1>
                             <p className="hidden text-sm text-slate-500 dark:text-slate-400">
@@ -348,37 +348,14 @@ export default function ProjectsPage() {
               )}
 
               {current === 1 && (
-                <div className="grid grid-cols-3 gap-12 p-7 lg:p-12">
+                <div className="grid gap-12 p-7 text-left lg:grid-cols-3 lg:p-12">
                   <div className="col-auto">
                     <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <div>
-                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                          <ScanText />
-                        </span>
-                      </div>
-                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                        AI Copywriting
-                      </h1>
-                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                        Transforme suas ideias em conteúdo de marketing
-                        cativante sem esforço, nossas poderosas ferramentas de
-                        IA estão aqui para ajudá-lo a criar textos atraentes com
-                        facilidade.
-                      </p>
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                  </div>
-                  <div className="col-auto">
-                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <div>
-                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                          <NotebookPen />
-                        </span>
-                      </div>
-                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        <NotebookPen />
                         AI Writers
                       </h1>
-                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
                         Escritores de IA especializados e focados em seu
                         negócio, nossa ferramenta economiza tempo e esforço e
                         aumenta a produtividade.
@@ -389,15 +366,27 @@ export default function ProjectsPage() {
 
                   <div className="col-auto">
                     <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                      <div>
-                        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                          <Webhook />
-                        </span>
-                      </div>
-                      <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        <ScanText />
+                        AI Copywriting
+                      </h1>
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                        Transforme suas ideias em conteúdo de marketing
+                        cativante sem esforço, nossas poderosas ferramentas de
+                        IA estão aqui para ajudá-lo a criar textos atraentes com
+                        facilidade.
+                      </p>
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                  </div>
+
+                  <div className="col-auto">
+                    <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
+                      <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                        <Webhook />
                         AI Social
                       </h1>
-                      <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
                         Descubra o futuro do marketing de mídia social com nossa
                         IA, crie postagens e legendas sem esforço e eleve sua
                         presença nas redes sociais.
@@ -411,9 +400,20 @@ export default function ProjectsPage() {
 
             <div
               style={{
-                marginTop: 24,
+                marginTop: 34,
               }}
             >
+              {current > 0 && (
+                <AntButton
+                  style={{
+                    margin: "0 8px",
+                  }}
+                  onClick={() => prev()}
+                >
+                  Voltar
+                </AntButton>
+              )}
+
               {current < steps.length - 1 && (
                 <AntButton type="primary" onClick={() => next()}>
                   Próximo
@@ -425,18 +425,7 @@ export default function ProjectsPage() {
                   type="primary"
                   onClick={() => message.success("Processing complete!")}
                 >
-                  Pronto
-                </AntButton>
-              )}
-
-              {current > 0 && (
-                <AntButton
-                  style={{
-                    margin: "0 8px",
-                  }}
-                  onClick={() => prev()}
-                >
-                  Voltar
+                  Pronto! Vamos Gerar Conteúdo
                 </AntButton>
               )}
             </div>
