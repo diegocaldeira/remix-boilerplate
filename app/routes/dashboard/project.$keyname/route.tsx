@@ -14,7 +14,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import { Button as AntButton, message, Steps, theme } from "antd"
+import { Button as AntButton, Flex, message, Steps, Tag, theme } from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -24,18 +24,22 @@ import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
 import { getAllCategoriesActive } from "@/models/category"
+import { getAllFeatures } from "@/models/feature"
 import { getProjectByUserIdAndKeyname } from "@/models/project"
 import { getSubscriptionByUserId } from "@/models/subscription"
+import { CTAContainer, PricingCard } from "@/components/pricing/containers"
+import { FeatureDescription, FeatureTitle } from "@/components/pricing/feature"
 import { Button } from "@/components/ui/button"
 
 const steps = [
   {
     title: "Organize seus Conteúdos",
-    content: "First-content",
   },
   {
     title: "Escolha sua Ferramentas de IA",
-    content: "Second-content",
+  },
+  {
+    title: "Tipo de Conteúdo",
   },
 ]
 
@@ -63,10 +67,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const categories = await getAllCategoriesActive()
 
+  let copywritingCards = await getAllFeatures()
+
   return {
     categories,
     features,
     subscription,
+    copywritingCards,
   }
 }
 
@@ -124,7 +131,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function ProjectsPage() {
-  const { categories, features } = useLoaderData<typeof loader>()
+  const { categories, features, copywritingCards } =
+    useLoaderData<typeof loader>()
   const { token } = theme.useToken()
   const [current, setCurrent] = useState(0)
 
@@ -278,7 +286,7 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <Steps current={current} items={items} className="mt-2" />
+            <Steps current={current} items={items} className="my-5 mb-8" />
 
             <div style={contentStyle}>
               {current === 0 && (
@@ -289,7 +297,7 @@ export default function ProjectsPage() {
                   defaultOpen={true}
                 >
                   <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                    <header id="header" className="relative z-20 p-2 lg:p-8">
+                    <header id="header" className="relative z-20">
                       <div>
                         <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
                           O que vamos criar hoje?
@@ -332,7 +340,7 @@ export default function ProjectsPage() {
 
                           <AuthenticityTokenInput />
 
-                          <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pb-8 xl:pt-6">
+                          <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 xl:pb-0 xl:pt-6">
                             <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-6 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
                               <Button
                                 className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
@@ -365,7 +373,7 @@ export default function ProjectsPage() {
                   defaultOpen={true}
                 >
                   <DisclosureButton className="group flex w-full items-start justify-between text-left">
-                    <header id="header" className="relative z-20 p-2 lg:p-8">
+                    <header id="header" className="relative z-20">
                       <div>
                         <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
                           Ferramentas de escrita
@@ -381,81 +389,218 @@ export default function ProjectsPage() {
                         cativante sem esforço com as ferramentas de escritas de
                         IA.
                       </p>
-                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
+                      <p className="text-lg text-slate-700 dark:text-slate-400">
                         Somos o seu parceiro para inovação e crescimento.
                       </p>
-                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
+                      <p className="text-lg text-slate-700 dark:text-slate-400">
                         Gaste menos tempo planejando e mais tempo construindo
                         seu negócio.
-                        <div className="max-w-7xl">
-                          <h1 className="my-6 text-left text-xl leading-7">
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
-                              Livre de Alucinação
-                            </span>
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 text-wrap rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
-                              Baseado em Fatos
-                            </span>
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
-                              Personalize o Tom
-                            </span>
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
-                              Zero Prompts
-                            </span>
-                            <span className="bg-dark-100 text-dark-800 border-dark-400 me-3 rounded border px-3.5 py-1.5 text-sm font-medium dark:bg-gray-700 dark:text-blue-400">
-                              Multilínguagem
-                            </span>
+                      </p>
+                      <Flex className="my-7 lg:mb-0" gap="8px 0" wrap>
+                        <Tag color="default">Livre de Alucinação</Tag>
+                        <Tag color="default">Baseado em Fatos</Tag>
+                        <Tag color="default">Personalize o Tom</Tag>
+                        <Tag color="default">Zero Prompts</Tag>
+                        <Tag color="default">Multilínguagem</Tag>
+                      </Flex>
+                    </header>
+                    <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
+                    <div className="my-10 grid gap-5 text-left lg:grid-cols-3">
+                      <Form
+                        key="ai-writer"
+                        method="post"
+                        action={"/dashboard/project/" + feature.keyname}
+                      >
+                        <input
+                          type="hidden"
+                          name="project"
+                          value={feature.keyname}
+                        />
+
+                        <input type="hidden" name="aitool" value="ai-writer" />
+
+                        <AuthenticityTokenInput />
+                        <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 lg:p-4 xl:grid-cols-2 xl:px-1 xl:pb-8 xl:pt-6">
+                          <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-4 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
+                            <Button
+                              className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
+                              type="submit"
+                              onClick={() => next()}
+                            >
+                              <div className="col-auto">
+                                <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                                  <NotebookPen />
+                                  AI Writers
+                                </h1>
+                                <p className="text-wrap text-sm text-slate-400 group-hover:text-white">
+                                  Escritores de IA especializados e focados em
+                                  seu negócio, economize tempo, esforço e
+                                  aumente a produtividade.
+                                </p>
+                                <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                              </div>
+                            </Button>
+                          </li>
+                        </ul>
+                      </Form>
+
+                      <Form
+                        key="ai-copywriting"
+                        method="post"
+                        action={"/dashboard/project/" + feature.keyname}
+                      >
+                        <input
+                          type="hidden"
+                          name="project"
+                          value={feature.keyname}
+                        />
+
+                        <input
+                          type="hidden"
+                          name="aitool"
+                          value="ai-copywriting"
+                        />
+
+                        <AuthenticityTokenInput />
+                        <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 lg:p-4 xl:grid-cols-2 xl:px-1 xl:pb-8 xl:pt-6">
+                          <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-4 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
+                            <Button
+                              className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
+                              type="submit"
+                              onClick={() => next()}
+                            >
+                              <div className="col-auto">
+                                <div className="rounded-lg">
+                                  <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                                    <ScanText />
+                                    AI Copywriting
+                                  </h1>
+                                  <p className="text-wrap text-sm text-slate-400 group-hover:text-white">
+                                    Transforme suas ideias em conteúdo de
+                                    marketing cativante sem esforço, crie textos
+                                    atraentes com facilidade.
+                                  </p>
+                                </div>
+                                <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                              </div>
+                            </Button>
+                          </li>
+                        </ul>
+                      </Form>
+
+                      <Form
+                        key="ai-social"
+                        method="post"
+                        action={"/dashboard/project/" + feature.keyname}
+                      >
+                        <input
+                          type="hidden"
+                          name="project"
+                          value={feature.keyname}
+                        />
+
+                        <input type="hidden" name="aitool" value="ai-social" />
+
+                        <AuthenticityTokenInput />
+                        <ul className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 lg:p-4 xl:grid-cols-2 xl:px-1 xl:pb-8 xl:pt-6">
+                          <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-4 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
+                            <Button
+                              className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
+                              type="submit"
+                              onClick={() => next()}
+                            >
+                              <div className="col-auto">
+                                <div className="rounded-lg">
+                                  <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
+                                    <Webhook />
+                                    AI Social
+                                  </h1>
+                                  <p className="text-wrap text-sm text-slate-400 group-hover:text-white">
+                                    O futuro do marketing de mídia social. Crie
+                                    postagens e legendas sem esforço e eleve sua
+                                    presença nas redes sociais.
+                                  </p>
+                                </div>
+                                <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
+                              </div>
+                            </Button>
+                          </li>
+                        </ul>
+                      </Form>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              )}
+
+              {current === 2 && (
+                <Disclosure
+                  key="tools"
+                  as="div"
+                  className="rounded-lg p-7 shadow-xl lg:p-12"
+                  defaultOpen={true}
+                >
+                  <DisclosureButton className="group flex w-full items-start justify-between text-left">
+                    <header id="header" className="relative z-20">
+                      <div>
+                        <p className="mb-2 text-sm font-semibold leading-6 text-sky-500 dark:text-sky-400">
+                          Tipo de Conteúdo
+                        </p>
+                        <div className="flex items-center">
+                          <h1 className="inline-block text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-3xl">
+                            AI Copywriting
                           </h1>
                         </div>
+                      </div>
+                      <p className="mt-2 text-lg text-slate-700 dark:text-slate-400">
+                        Quer você seja um profissional de marketing experiente
+                        ou esteja apenas começando, nossas ferramentas de IA
+                        estão aqui para ajudá-lo a criar textos atraentes com
+                        facilidade.
+                        <br />
+                        Descubra uma variedade de fórmulas comprovadas de
+                        direitos autorais projetadas para aprimorar suas
+                        campanhas de marketing e criar conteúdo persuasivo
+                        incluindo <b>4C's</b>, <b>STAR</b>, <b>PAS</b>,{" "}
+                        <b>AIDPPC</b>, <b>3R's</b>, <b>Emotional Triggers</b>,{" "}
+                        <b>ACCA</b>, <b>OATH</b>, <b>FAB</b>, <b>BAB</b>,{" "}
+                        <b>AIDA</b> e <b>APP</b>.
                       </p>
                     </header>
                     <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                   </DisclosureButton>
                   <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
-                    <div className="grid gap-12 text-left lg:grid-cols-3 lg:p-8">
-                      <div className="col-auto">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            <NotebookPen />
-                            AI Writers
-                          </h1>
-                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            Escritores de IA especializados e focados em seu
-                            negócio, nossa ferramenta economiza tempo e esforço
-                            e aumenta a produtividade.
-                          </p>
-                        </div>
-                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                      </div>
+                    <div className="isolate mx-auto mt-20 grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-3">
+                      {copywritingCards.map((copy) => {
+                        return (
+                          <PricingCard key={copy.keyname}>
+                            <FeatureTitle>{copy.name}</FeatureTitle>
+                            <FeatureDescription>
+                              {copy.description}
+                            </FeatureDescription>
+                            <CTAContainer>
+                              <Form method="post">
+                                <input
+                                  type="hidden"
+                                  name="keyname"
+                                  value={copy.keyname}
+                                />
 
-                      <div className="col-auto">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            <ScanText />
-                            AI Copywriting
-                          </h1>
-                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            Transforme suas ideias em conteúdo de marketing
-                            cativante sem esforço, crie textos atraentes com
-                            facilidade.
-                          </p>
-                        </div>
-                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                      </div>
-
-                      <div className="col-auto">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <h1 className="text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            <Webhook />
-                            AI Social
-                          </h1>
-                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            O futuro do marketing de mídia social. Crie
-                            postagens e legendas sem esforço e eleve sua
-                            presença nas redes sociais.
-                          </p>
-                        </div>
-                        <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                      </div>
+                                <Button
+                                  disabled={!copy.isActive}
+                                  className="mt-8 w-full"
+                                  type="submit"
+                                >
+                                  {copy.isActive
+                                    ? "Gerar Conteúdo"
+                                    : "Em Breve"}
+                                </Button>
+                              </Form>
+                            </CTAContainer>
+                          </PricingCard>
+                        )
+                      })}
                     </div>
                   </DisclosurePanel>
                 </Disclosure>
