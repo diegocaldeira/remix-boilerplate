@@ -467,7 +467,7 @@ export default function ProjectsPage() {
                                   className="isolate mx-auto grid h-full w-full max-w-md grid-cols-1 rounded-lg border-slate-300 bg-transparent text-left hover:border-solid hover:bg-transparent"
                                   type="button"
                                   onClick={() => {
-                                    selectAITool("ai-writers")
+                                    selectAITool(item.value)
                                     next()
                                   }}
                                 >
@@ -537,35 +537,36 @@ export default function ProjectsPage() {
                     </DisclosureButton>
                     <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
                       <div className="isolate mx-auto mt-20 grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-3">
-                        {copywritingCards.map((copy) => {
-                          return (
-                            <PricingCard key={copy.keyname}>
-                              <FeatureTitle>{copy.name}</FeatureTitle>
-                              <FeatureDescription>
-                                {copy.description}
-                              </FeatureDescription>
-                              <CTAContainer>
-                                <Form method="post">
-                                  <input
-                                    type="hidden"
-                                    name="copywritingtype"
-                                    value={copy.keyname}
-                                  />
+                        {selectedAITool === "ai-copywriting" &&
+                          copywritingCards.map((copy) => {
+                            return (
+                              <PricingCard key={copy.keyname}>
+                                <FeatureTitle>{copy.name}</FeatureTitle>
+                                <FeatureDescription>
+                                  {copy.description}
+                                </FeatureDescription>
+                                <CTAContainer>
+                                  <Form method="post">
+                                    <input
+                                      type="hidden"
+                                      name="copywritingtype"
+                                      value={copy.keyname}
+                                    />
 
-                                  <Button
-                                    disabled={!copy.isActive}
-                                    className="mt-8 w-full"
-                                    type="submit"
-                                  >
-                                    {copy.isActive
-                                      ? "Gerar Conteúdo"
-                                      : "Em Breve"}
-                                  </Button>
-                                </Form>
-                              </CTAContainer>
-                            </PricingCard>
-                          )
-                        })}
+                                    <Button
+                                      disabled={!copy.isActive}
+                                      className="mt-8 w-full"
+                                      type="submit"
+                                    >
+                                      {copy.isActive
+                                        ? "Gerar Conteúdo"
+                                        : "Em Breve"}
+                                    </Button>
+                                  </Form>
+                                </CTAContainer>
+                              </PricingCard>
+                            )
+                          })}
                       </div>
                     </DisclosurePanel>
                   </Disclosure>
