@@ -1,5 +1,5 @@
-import React, { useEffect, useId, useState } from "react"
-import { json, redirect } from "@remix-run/node"
+import { useEffect, useId, useState } from "react"
+import { json } from "@remix-run/node"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import {
   Form,
