@@ -167,6 +167,50 @@ const schema = z.object({
   }),
 })
 
+export const FormulaHeader = ({
+  title,
+  description,
+}: {
+  title: string
+  description: string
+}) => {
+  return (
+    <div className="max-w-4xl text-left">
+      <h1 className="wrap-balance mt-16 bg-black bg-gradient-to-br bg-clip-text text-left text-4xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
+        {title}
+      </h1>
+      <p
+        className="wrap-balance mt-6 text-left text-lg font-light leading-6 text-muted-foreground"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
+    </div>
+  )
+}
+
+export const FormulaDisclosure = ({
+  key,
+  title,
+  description,
+}: {
+  key: string
+  title: string
+  description: string
+}) => {
+  return (
+    <Disclosure key={key} as="div" className="py-3" defaultOpen={false}>
+      <DisclosureButton className="group flex w-full items-center justify-between">
+        <span className="wrap-balance mt-4 bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+          {title}
+        </span>
+        <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
+      </DisclosureButton>
+      <DisclosurePanel className="mt-2 text-sm/5 leading-6">
+        <p dangerouslySetInnerHTML={{ __html: description }} />
+      </DisclosurePanel>
+    </Disclosure>
+  )
+}
+
 export default function FormulaPage() {
   const [executionResult, setExecutionResult] = useState(null)
   const { feature } = useLoaderData<typeof loader>()
@@ -197,17 +241,6 @@ export default function FormulaPage() {
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-2">
-        <div className="max-w-4xl text-left">
-          <h1 className="wrap-balance mt-16 bg-black bg-gradient-to-br bg-clip-text text-left text-4xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
-            {feature.name}
-          </h1>
-        </div>
-
-        <p
-          className="wrap-balance mt-6 text-left text-lg font-light leading-6 text-muted-foreground"
-          dangerouslySetInnerHTML={{ __html: feature.description }}
-        />
-
         <div className="w-full pb-10">
           <div className="wrap-balance mx-auto mt-4 w-full max-w-lg divide-y divide-white/5 rounded-xl bg-black bg-gradient-to-br bg-clip-text text-left text-sm/6 font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
             {feature.listOfFeatures.map((item) => {

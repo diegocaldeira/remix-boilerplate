@@ -5,7 +5,7 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, NavLink, useLoaderData } from "@remix-run/react"
+import { Form, NavLink, useHref, useLoaderData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { parse } from "@conform-to/zod"
 import {
@@ -13,16 +13,11 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import {
-  Button as AntButton,
-  Flex,
-  message,
-  Segmented,
-  Steps,
-  Tag,
-  theme,
-} from "antd"
+  ChevronDoubleRightIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/20/solid"
+import { Button as AntButton, Flex, message, Steps, Tag, theme } from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -103,7 +98,7 @@ const schema = z.object({
   // z.string({
   //   required_error: "Por favor, selecione a ferramenta de escrita que você deseja utilizar",
   // }),
-  copywritingtype: z.string().optional(),
+  copywritingFormula: z.string().optional(),
   //   z.string({
   //   required_error: "Por favor, selecione a fórmula de copywriting",
   // }),
@@ -141,12 +136,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     console.log("selecting category with id: " + submission.value.category)
     console.log("selecting tool with id: " + submission.value.tool)
     console.log(
-      "selecting copywriting with id: " + submission.value.copywritingtype
+      "selecting copywriting with id: " + submission.value.copywritingFormula
     )
-
-    // if (submission.value.category != "") {
-    //   setCurrent(current + 1)
-    // }
   }
 
   return redirect("/dashboard/project/" + submission.value.project)
@@ -183,6 +174,13 @@ export default function ProjectsPage() {
 
   const { token } = theme.useToken()
   const [current, setCurrent] = useState(0)
+
+  const startGenerator = (project: string, type: string) => {
+    console.log("project with id: " + project)
+    console.log("category with id: " + selectedCategory)
+    console.log("tool with id: " + selectedAITool)
+    console.log("copywriting with id: " + type)
+  }
 
   const next = () => {
     setCurrent(current + 1)
@@ -334,7 +332,7 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <Steps current={current} items={items} className="my-5 mb-8" />
+            <Steps current={current} items={items} className="my-8" />
 
             <Form
               key={feature.keyname}
@@ -344,6 +342,21 @@ export default function ProjectsPage() {
               <input type="hidden" name="project" value={feature.keyname} />
 
               <AuthenticityTokenInput />
+
+              {selectedCategory && (
+                <p className="pb-4 text-slate-700 dark:text-slate-400">
+                  <p className="mt-10 text-sm leading-6">
+                    Seus conteúdos serão organizados em{" "}
+                    {
+                      categories.filter(
+                        (category) => category.keyname === selectedCategory
+                      )[0].name
+                    }{" "}
+                    e o conteúdo atual será criado com a ferramenta de
+                    Copywriting.
+                  </p>
+                </p>
+              )}
 
               <div style={contentStyle}>
                 {current === 0 && (
@@ -375,12 +388,12 @@ export default function ProjectsPage() {
                       </header>
                       <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                     </DisclosureButton>
-                    <DisclosurePanel className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-0 py-5 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
+                    <DisclosurePanel className="isolate mx-auto grid max-w-md grid-cols-1 gap-4 px-0 py-5 text-sm/5 leading-6 lg:max-w-7xl lg:grid-cols-2">
                       {categories.map((item) => {
                         return (
                           <ul
                             key={item.keyname}
-                            className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-3 xl:pb-0 xl:pt-6"
+                            className="text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 xl:py-1 xl:pb-0"
                           >
                             <li className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-6 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500">
                               <Button
@@ -455,7 +468,7 @@ export default function ProjectsPage() {
                       <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                     </DisclosureButton>
                     <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
-                      <div className="my-10 grid gap-5 text-left lg:grid-cols-3">
+                      <div className="my-8 grid gap-5 text-left lg:grid-cols-3">
                         {aiToolsOptions.map((item) => {
                           return (
                             <ul
@@ -536,7 +549,7 @@ export default function ProjectsPage() {
                       <ChevronDownIcon className="size-12 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
                     </DisclosureButton>
                     <DisclosurePanel className="isolate mx-auto text-sm/5 leading-6">
-                      <div className="isolate mx-auto mt-20 grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-3">
+                      <div className="isolate mx-auto mt-20 grid max-w-md grid-cols-1 gap-8 text-left md:max-w-7xl md:grid-cols-2 lg:grid-cols-3">
                         {selectedAITool === "ai-copywriting" &&
                           copywritingCards.map((copy) => {
                             return (
@@ -546,23 +559,23 @@ export default function ProjectsPage() {
                                   {copy.description}
                                 </FeatureDescription>
                                 <CTAContainer>
-                                  <Form method="post">
-                                    <input
-                                      type="hidden"
-                                      name="copywritingtype"
-                                      value={copy.keyname}
-                                    />
+                                  <Button
+                                    disabled={!copy.isActive}
+                                    className="isolate mx-auto grid h-full w-full max-w-md auto-cols-max grid-flow-col grid-cols-2 justify-items-end rounded-lg border-slate-300 text-left hover:border-solid hover:bg-rose-500"
+                                    type="button"
+                                    onClick={() => {
+                                      startGenerator(
+                                        feature.keyname,
+                                        copy.keyname
+                                      )
+                                    }}
+                                  >
+                                    {copy.isActive
+                                      ? "Gerar Conteúdo"
+                                      : "Em Breve"}
 
-                                    <Button
-                                      disabled={!copy.isActive}
-                                      className="mt-8 w-full"
-                                      type="submit"
-                                    >
-                                      {copy.isActive
-                                        ? "Gerar Conteúdo"
-                                        : "Em Breve"}
-                                    </Button>
-                                  </Form>
+                                    <ChevronDoubleRightIcon className="h-5 w-5" />
+                                  </Button>
                                 </CTAContainer>
                               </PricingCard>
                             )
