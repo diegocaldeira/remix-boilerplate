@@ -5,7 +5,7 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, NavLink, useHref, useLoaderData } from "@remix-run/react"
+import { Form, NavLink, useLoaderData, useNavigate } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { parse } from "@conform-to/zod"
 import {
@@ -166,6 +166,7 @@ const aiToolsOptions = [
 ]
 
 export default function ProjectsPage() {
+  const navigate = useNavigate()
   const [selectedAITool, selectAITool] = React.useState("")
   const [selectedCategory, selectCategory] = React.useState("")
 
@@ -180,6 +181,7 @@ export default function ProjectsPage() {
     console.log("category with id: " + selectedCategory)
     console.log("tool with id: " + selectedAITool)
     console.log("copywriting with id: " + type)
+    navigate(`/dashboard/formula/${type}?p=${project}&c=${selectedCategory}`)
   }
 
   const next = () => {
