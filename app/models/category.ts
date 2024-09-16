@@ -15,14 +15,11 @@ export const getCategoryByKeyname = async (keyname: Category["keyname"]) => {
 }
 
 export const getAllCategories = async () => {
-  return await prisma.category.findMany({
-    include: {},
-  })
+  return await prisma.category.findMany({})
 }
 
 export const getAllCategoriesActive = async () => {
   return await prisma.category.findMany({
     where: { isActive: true },
-    include: {},
   })
 }

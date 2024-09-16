@@ -229,7 +229,7 @@ export default function FormulaPage() {
         </div>
 
         <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-14 lg:max-w-7xl lg:grid-cols-2">
-          <div className="mt-10 w-full sm:mx-auto">
+          <div className="border-secondary-600 mt-10 w-full rounded-xl border-dashed shadow-none sm:mx-auto sm:p-1 md:border md:shadow-xl lg:p-7">
             <Form className="h-full w-full" method="post" {...form.props}>
               <AuthenticityTokenInput />
               <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
@@ -324,7 +324,7 @@ export default function FormulaPage() {
             </Form>
           </div>
 
-          <div className="mt-10 w-full bg-secondary p-7 sm:mx-auto">
+          <div className="border-secondary-600 mt-10 w-full rounded-xl border border-dashed p-7 shadow-xl sm:mx-auto">
             {executionResult ? (
               // <div>Resultado da Step Function: {JSON.parse(executionResult).event}</div>
               <ReactMarkdown>{JSON.parse(executionResult).event}</ReactMarkdown>

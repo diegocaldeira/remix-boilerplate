@@ -346,17 +346,15 @@ export default function ProjectsPage() {
               <AuthenticityTokenInput />
 
               {selectedCategory && (
-                <p className="pb-4 text-slate-700 dark:text-slate-400">
-                  <p className="mt-10 text-sm leading-6">
-                    Seus conteúdos serão organizados em{" "}
-                    {
-                      categories.filter(
-                        (category) => category.keyname === selectedCategory
-                      )[0].name
-                    }{" "}
-                    e o conteúdo atual será criado com a ferramenta de
-                    Copywriting.
-                  </p>
+                <p className="mt-10 pb-4 text-sm leading-6 text-slate-700 dark:text-slate-400">
+                  Seus conteúdos serão organizados em{" "}
+                  {
+                    categories.filter(
+                      (category) => category.keyname === selectedCategory
+                    )[0].name
+                  }{" "}
+                  e o conteúdo atual será criado com a ferramenta de
+                  Copywriting.
                 </p>
               )}
 

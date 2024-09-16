@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import { json } from "@remix-run/node"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import {
@@ -48,7 +48,7 @@ BigInt.prototype.toJSON = function () {
 }
 
 export const meta: MetaFunction = mergeMeta(() => {
-  return [{ title: "Gerar Conteúdo com a Fórmula FAB" }]
+  return [{ title: "Gerar Conteúdo com a Fórmula PAS" }]
 })
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -58,7 +58,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const selectedCategory = url.searchParams.get("c")
 
   const categories = await getAllCategoriesActive()
-  let feature = await getFeatureByKeyname("FAB")
+  let feature = await getFeatureByKeyname("PAS")
   feature = feature[0]
 
   return {
@@ -78,7 +78,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     failureRedirect: "/login",
   })
 
-  console.log("generating content with formula FAB")
+  console.log("generating content with formula PAS")
   const submission = await parse(formData, {
     schema: schema.superRefine(async (data, ctx) => {}),
     async: true,
@@ -88,10 +88,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(submission)
   }
 
-  const { fab_product_name, fab_product_details, fab_benefits } =
+  const { brandname, description, problem, agitate, solution } =
     submission.value
 
-  // Configurar o cliente SFN e iniciar a Step Function
   const client = new SFNClient({
     region: "us-east-1",
     credentials: {
@@ -103,9 +102,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const command = new StartExecutionCommand({
     stateMachineArn: process.env.REACT_APP_AWS_SFN_ARN,
     input: JSON.stringify({
-      event_type: "process-copywriting-fab",
+      event_type: "process-copywriting-pas",
       timestamp: Date.now().toString(),
-      data: { fab_product_name, fab_product_details, fab_benefits },
+      data: { brand_name: brandname, description, problem, agitate, solution },
     }),
   })
 
@@ -123,16 +122,24 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 const schema = z.object({
-  fab_product_name: z.string({
-    required_error: "Por favor, entre com o nome do produto ou serviço",
+  brandname: z.string({
+    required_error: "Por favor, entre com o nome da marca ou do seu negócio",
   }),
-  fab_product_details: z.string({
+  description: z.string({
     required_error:
-      "Por favor, destaque as características do produto ou serviço",
+      "Por favor, conte nos um pouco sobre a sua marca ou do seu negócio",
   }),
-  fab_benefits: z.string({
+  problem: z.string({
     required_error:
-      "Por favor, enfatize os benefícios ou resultados finais experimentados pelo cliente",
+      "Por favor, informe o problema enfrentado pelo seu público-alvo",
+  }),
+  agitate: z.string({
+    required_error:
+      "Por favor, informe quais os impactos negativos do problema a ser atendido",
+  }),
+  solution: z.string({
+    required_error:
+      "Por favor, explique como seu produto resolve ou serviço resolve o problema",
   }),
 })
 
@@ -153,7 +160,7 @@ export default function FormulaPage() {
   const isFormSubmitting = navigation.state === "submitting"
   const isSigningUpWithsituation = isFormSubmitting
 
-  const [form, { fab_product_name, fab_product_details, fab_benefits }] =
+  const [form, { brandname, description, problem, agitate, solution }] =
     useForm({
       id,
       lastSubmission,
@@ -166,7 +173,7 @@ export default function FormulaPage() {
 
   return (
     <div>
-      <div className="mx-auto max-w-7xl px-6 lg:px-2">
+      <div className="mx-auto max-w-7xl px-2">
         <Disclosure
           key="tools"
           as="div"
@@ -226,71 +233,93 @@ export default function FormulaPage() {
                   <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
                     <div className="w-full space-y-6">
                       <div>
-                        <Label htmlFor="fab_product_name">
-                          Insira o nome do produto/serviço
-                        </Label>
+                        <Label htmlFor="brandname">Marca/Negócio</Label>
                         <div className="mt-2">
                           <Input
-                            error={fab_product_name.error}
-                            id="fab_product_name"
+                            error={brandname.error}
+                            id="brandname"
                             type="text"
-                            placeholder=""
+                            placeholder="Entre com o nome da marca ou do seu negócio"
                             required
-                            {...conform.input(fab_product_name, {
-                              type: "text",
-                            })}
+                            {...conform.input(brandname, { type: "text" })}
                           />
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="fab_product_details">
-                          Descreva suas ofertas?** (liste os recursos do
-                          produto)
+                        <Label htmlFor="description">
+                          Descreva o que sua marca/empresa faz? (Em 5 a 6
+                          palavras)
                         </Label>
                         <div className="mt-2">
                           <Input
-                            error={fab_product_details.error}
-                            id="fab_product_details"
+                            error={description.error}
+                            id="description"
                             type="text"
                             placeholder=""
-                            {...conform.input(fab_product_details, {
-                              type: "text",
-                            })}
+                            {...conform.input(description, { type: "text" })}
                           />
                         </div>
                       </div>
 
                       <div>
                         <div className="flex items-center justify-between">
-                          <Label htmlFor="fab_benefits">
-                            Mencione benefícios ou resultados vivenciados pelo
-                            cliente:
+                          <Label htmlFor="problem">
+                            Identifique um problema enfrentado pelo seu
+                            público-alvo
                           </Label>
                         </div>
                         <div className="mt-2">
                           <Input
-                            error={fab_benefits.error}
-                            id="fab_benefits"
+                            error={problem.error}
+                            id="problem"
                             type="text"
-                            placeholder=""
-                            {...conform.input(fab_benefits, { type: "text" })}
+                            placeholder="Exemplo: 'Luta para encontrar habitação acessível'"
+                            {...conform.input(problem, { type: "text" })}
                           />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="w-full space-y-6">
-                      <Button
-                        disabled={isSigningUpWithsituation}
-                        className="isolate grid h-full max-w-md auto-cols-max grid-flow-col grid-cols-2 justify-items-start rounded-lg border-slate-300 text-left hover:border-solid hover:bg-rose-500"
-                        type="submit"
-                      >
-                        <ScanText className="h-5 w-5" />
-                        {isSigningUpWithsituation && (
-                          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        Escrever
-                      </Button>
+                      <div>
+                        <Label htmlFor="agitate">Destaque o problema</Label>
+                        <div className="mt-2">
+                          <Input
+                            error={agitate.error}
+                            id="agitate"
+                            type="text"
+                            placeholder="Destaque o impacto negativo do problema"
+                            {...conform.input(agitate, { type: "text" })}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="solution">
+                          Apresente seu produto ou serviço como a solução
+                        </Label>
+                        <div className="mt-2">
+                          <Input
+                            error={solution.error}
+                            id="solution"
+                            type="text"
+                            placeholder="Explique como seu produto ou serviço resolve o problema"
+                            {...conform.input(solution, { type: "text" })}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="w-full space-y-6">
+                        <Button
+                          disabled={isSigningUpWithsituation}
+                          className="isolate grid h-full max-w-md auto-cols-max grid-flow-col grid-cols-2 justify-items-start rounded-lg border-slate-300 text-left hover:border-solid hover:bg-rose-500"
+                          type="submit"
+                        >
+                          <ScanText className="h-5 w-5" />
+                          {isSigningUpWithsituation && (
+                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                          )}
+                          Escrever
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Form>
@@ -340,7 +369,6 @@ export default function FormulaPage() {
                     </Tooltip>
                   </Flex>
                 </Flex>
-
                 {executionResult ? (
                   <ReactMarkdown>
                     {JSON.parse(executionResult).event}
