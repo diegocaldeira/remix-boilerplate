@@ -123,6 +123,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 const schema = z.object({
+  title: z.string({}).optional(),
   brandname: z.string({
     required_error: "Por favor, entre com o nome da marca ou do seu negócio",
   }),
@@ -351,25 +352,39 @@ export default function FormulaPage() {
                     )}
                   </Flex>
                   <Flex wrap gap="small">
-                    <Tooltip title="Copiar Contéudo para o área de transferência">
-                      <AntButton
-                        disabled={!executionResult}
-                        type="default"
-                        icon={<CopyOutlined />}
-                      >
-                        Copiar
-                      </AntButton>
-                    </Tooltip>
-
-                    <Tooltip title="Salvar Contéudo">
-                      <AntButton
-                        disabled={!executionResult}
-                        type="primary"
-                        icon={<BookOutlined />}
-                      >
-                        Salvar
-                      </AntButton>
-                    </Tooltip>
+                    <Form
+                      className="h-full w-full"
+                      method="post"
+                      {...form.props}
+                    >
+                      <AuthenticityTokenInput />
+                      <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
+                        <div className="w-full space-y-6">
+                          <div>
+                            <Label htmlFor="title">Título</Label>
+                            <div className="mt-2">
+                              <Input
+                                id="title"
+                                type="text"
+                                placeholder="Entre com o titulo"
+                                required
+                                {...conform.input(title, { type: "text" })}
+                              />
+                            </div>
+                            <div className="w-full space-y-6">
+                              <Tooltip title="Salvar Contéudo">
+                                <Button
+                                  disabled={!executionResult}
+                                  type="submit"
+                                >
+                                  Salvar
+                                </Button>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Form>
                   </Flex>
                 </Flex>
 

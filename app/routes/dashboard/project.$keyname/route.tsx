@@ -17,7 +17,15 @@ import {
   ChevronDoubleRightIcon,
   ChevronDownIcon,
 } from "@heroicons/react/20/solid"
-import { Button as AntButton, Flex, message, Steps, Tag, theme } from "antd"
+import {
+  Button as AntButton,
+  Flex,
+  message,
+  Steps,
+  Table,
+  Tag,
+  theme,
+} from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -27,6 +35,7 @@ import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
 import { getAllCategoriesActive } from "@/models/category"
+import { getAllContentGeneratedActiveByUser } from "@/models/content-generated"
 import { getAllFeatures } from "@/models/feature"
 import { getProjectByUserIdAndKeyname } from "@/models/project"
 import { getSubscriptionByUserId } from "@/models/subscription"
@@ -46,6 +55,29 @@ const steps = [
   },
 ]
 
+const columns = [
+  {
+    title: "Título",
+    dataIndex: "title",
+    filters: [],
+    filterMode: "tree",
+    filterSearch: true,
+    onFilter: (value, record) => record.title.startsWith(value),
+    width: "60%",
+  },
+  {
+    title: "Categoria",
+    dataIndex: "categoryName",
+    filters: [],
+    onFilter: (value, record) => record.categoryName.startsWith(value),
+    filterSearch: true,
+  },
+]
+
+const onChange = (pagination, filters, sorter, extra) => {
+  console.log("params", pagination, filters, sorter, extra)
+}
+
 declare global {
   interface BigInt {
     toJSON(): string
@@ -54,6 +86,34 @@ declare global {
 
 BigInt.prototype.toJSON = function () {
   return this.toString()
+}
+
+const populateTitleFilters = (titles: any) => {
+  return columns.map((column: any) => {
+    // Verifica se a coluna corresponde à categoria desejada
+    if (column.dataIndex === "title") {
+      // Adiciona categorias ao campo filters
+      column.filters = titles.map((title: any) => ({
+        text: title.title,
+        value: title.title,
+      }))
+    }
+    return column
+  })
+}
+
+const populateCategoryFilters = (categories: any) => {
+  return columns.map((column: any) => {
+    // Verifica se a coluna corresponde à categoria desejada
+    if (column.dataIndex === "categoryName") {
+      // Adiciona categorias ao campo filters
+      column.filters = categories.map((category: any) => ({
+        text: category.name,
+        value: category.name,
+      }))
+    }
+    return column
+  })
 }
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -71,11 +131,31 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const categories = await getAllCategoriesActive()
   let copywritingCards = await getAllFeatures()
 
+  const contentGeneratedResults = await getAllContentGeneratedActiveByUser(
+    session.id
+  )
+
+  const contentGeneratedCollection = contentGeneratedResults.map(
+    (item, index) => ({
+      ...item,
+      key: index,
+      categoryName:
+        categories
+          .filter((category) => category.keyname === item.categoryId)
+          .map((category) => category.name)[0] || "Categoria não encontrada",
+    })
+  )
+
+  let columnsFiltered = populateCategoryFilters(categories)
+  columnsFiltered = populateTitleFilters(contentGeneratedCollection)
+
   return {
+    contentGeneratedCollection,
     categories,
     features,
     subscription,
     copywritingCards,
+    columnsFiltered,
   }
 }
 
@@ -91,17 +171,8 @@ const schema = z.object({
     required_error: "Por favor, entre com o nome do seu projeto.",
   }),
   category: z.string().optional(),
-  //   z.string({
-  //   required_error: "Por favor, selecione o contêiner de escrita que você deseja utilizar",
-  // }),
   tool: z.string().optional(),
-  // z.string({
-  //   required_error: "Por favor, selecione a ferramenta de escrita que você deseja utilizar",
-  // }),
   copywritingFormula: z.string().optional(),
-  //   z.string({
-  //   required_error: "Por favor, selecione a fórmula de copywriting",
-  // }),
 })
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -170,17 +241,18 @@ export default function ProjectsPage() {
   const [selectedAITool, selectAITool] = React.useState("")
   const [selectedCategory, selectCategory] = React.useState("")
 
-  const { categories, features, copywritingCards } =
-    useLoaderData<typeof loader>()
+  const {
+    categories,
+    features,
+    copywritingCards,
+    columnsFiltered,
+    contentGeneratedCollection,
+  } = useLoaderData<typeof loader>()
 
   const { token } = theme.useToken()
   const [current, setCurrent] = useState(0)
 
   const startGenerator = (project: string, type: string) => {
-    console.log("project with id: " + project)
-    console.log("category with id: " + selectedCategory)
-    console.log("tool with id: " + selectedAITool)
-    console.log("copywriting with id: " + type)
     navigate(`/dashboard/formula/${type}?p=${project}&c=${selectedCategory}`)
   }
 
@@ -620,6 +692,12 @@ export default function ProjectsPage() {
             </div>
 
             <div className="my-16"></div>
+
+            <Table
+              columns={columnsFiltered}
+              dataSource={contentGeneratedCollection}
+              onChange={onChange}
+            />
           </div>
         )
       })}

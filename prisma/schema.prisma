@@ -179,7 +179,6 @@ model Tool {
   name             String
   description      String?
   isActive         Boolean
-  contentGenerated ContentGenerated[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -195,8 +194,9 @@ model ContentGenerated {
   content     String?
   isActive    Boolean
 
-  toolId String @db.ObjectId
-  tool   Tool   @relation(fields: [toolId], references: [id])
+  categoryId String?
+  userId String?
+  toolId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

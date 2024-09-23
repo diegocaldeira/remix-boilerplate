@@ -9,7 +9,6 @@ import {
   useNavigation,
 } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
-import { BookOutlined, CopyOutlined } from "@ant-design/icons"
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
@@ -20,9 +19,9 @@ import {
 } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { Button as AntButton, Flex, Tag, Tooltip } from "antd"
+import { Flex, Tag } from "antd"
 import { ScanText } from "lucide-react"
-import ReactMarkdown from "react-markdown"
+import slugify from "react-slugify"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
 
@@ -30,8 +29,10 @@ import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import checkExecutionStatus from "@/services/aws/checkExecutionStatus"
+import { prisma } from "@/services/db/db.server"
 import { getAllCategoriesActive } from "@/models/category"
 import { getFeatureByKeyname } from "@/models/feature"
+import BookmarkContent from "@/components/collection/bookmark-content"
 import { CommonErrorBoundary } from "@/components/error-boundry"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -52,6 +53,9 @@ export const meta: MetaFunction = mergeMeta(() => {
 })
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  const session = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  })
   const url = new URL(request.url)
 
   const project = url.searchParams.get("p")
@@ -62,6 +66,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   feature = feature[0]
 
   return {
+    session,
     project,
     selectedCategory,
     categories,
@@ -69,56 +74,129 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  await validateCsrfToken(request)
-  const clonedRequest = request.clone()
-  const formData = await clonedRequest.formData()
+const saveContent = async (
+  content: string,
+  feature_id: string,
+  category_id: string,
+  session_id: string
+) => {
+  try {
+    await prisma.contentGenerated.create({
+      data: {
+        keyname: slugify(content.slice(0, 30)),
+        name: content.slice(0, 30) + "...",
+        icon: "",
+        title: content.slice(0, 30) + "...",
+        content: content,
+        description: content.slice(0, 100) + "...",
+        userId: session_id,
+        toolId: feature_id,
+        categoryId: category_id,
+        isActive: true,
+      },
+    })
+  } catch (error) {
+    console.error("Erro ao salvar o conteúdo:", error)
+    throw new Response("Erro ao salvar conteúdo", { status: 500 })
+  }
+}
 
-  await authenticator.isAuthenticated(request, {
+const bookmarkSchema = z.object({
+  feature_id: z.string({
+    required_error: "Por favor, entre com o código de verificação",
+  }),
+  category_id: z.string({
+    required_error: "Por favor, entre com a categoria",
+  }),
+  session_id: z.string({
+    required_error: "Por favor, entre com o código de sessão",
+  }),
+  content: z.string({
+    required_error: "Por favor, entre com o conteúdo",
+  }),
+})
+
+type FormDataType = {
+  intent: "generateContent" | "savingContent"
+} & z.infer<typeof schema> &
+  z.infer<typeof bookmarkSchema>
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  console.log("entrando no action")
+
+  await validateCsrfToken(request)
+
+  const clonedRequest = request.clone()
+
+  const formData = Object.fromEntries(
+    await clonedRequest.formData()
+  ) as unknown as FormDataType
+
+  switch (formData.intent) {
+    case "generateContent":
+      await schema.superRefine(async (data, ctx) => {}).safeParseAsync(formData)
+
+      console.log("generating content with formula PAS")
+
+      if (
+        !process.env.REACT_APP_AWS_ACCESS_KEY_ID ||
+        !process.env.REACT_APP_AWS_SECRET_ACCESS_KEY
+      ) {
+        throw new Error("AWS access key ID and secret access key are required")
+      }
+
+      const client = new SFNClient({
+        region: "us-east-1",
+        credentials: {
+          accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+        },
+      })
+
+      const { brandname, description, problem, agitate, solution } = formData
+
+      const command = new StartExecutionCommand({
+        stateMachineArn: process.env.REACT_APP_AWS_SFN_ARN,
+        input: JSON.stringify({
+          event_type: "process-copywriting-fab",
+          timestamp: Date.now().toString(),
+          data: {
+            brand_name: brandname,
+            description,
+            problem,
+            agitate,
+            solution,
+          },
+        }),
+      })
+
+      console.log("iniciando a execução da Step Function")
+      try {
+        const data = await client.send(command)
+        const response = { ...formData, executionArn: data.executionArn }
+
+        console.log("Resultado da execução da Step Function:", response)
+        return json(response)
+      } catch (error: any) {
+        console.error("Erro ao iniciar a execução da Step Function:", error)
+        return json({ ...formData, error: error.message }, { status: 500 })
+      }
+    case "savingContent":
+      console.log("saving content with formula PAS")
+      await saveContent(
+        formData.content,
+        formData.feature_id,
+        formData.category_id,
+        formData.session_id
+      )
+      return json({ verified: true })
+    default:
+      break
+  }
+
+  authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
-
-  console.log("generating content with formula PAS")
-  const submission = await parse(formData, {
-    schema: schema.superRefine(async (data, ctx) => {}),
-    async: true,
-  })
-
-  if (!submission.value || submission.intent !== "submit") {
-    return json(submission)
-  }
-
-  const { brandname, description, problem, agitate, solution } =
-    submission.value
-
-  const client = new SFNClient({
-    region: "us-east-1",
-    credentials: {
-      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-    },
-  })
-
-  const command = new StartExecutionCommand({
-    stateMachineArn: process.env.REACT_APP_AWS_SFN_ARN,
-    input: JSON.stringify({
-      event_type: "process-copywriting-pas",
-      timestamp: Date.now().toString(),
-      data: { brand_name: brandname, description, problem, agitate, solution },
-    }),
-  })
-
-  console.log("iniciando a execução da Step Function")
-  try {
-    const data = await client.send(command)
-    console.log("Resultado da execução da Step Function:", data)
-    const response = { ...submission, executionArn: data.executionArn }
-
-    return json(response)
-  } catch (error) {
-    console.error("Erro ao iniciar a execução da Step Function:", error)
-    return json({ ...submission, error: error.message }, { status: 500 })
-  }
 }
 
 const schema = z.object({
@@ -145,7 +223,7 @@ const schema = z.object({
 
 export default function FormulaPage() {
   const [executionResult, setExecutionResult] = useState(null)
-  const { project, feature, categories, selectedCategory } =
+  const { session, project, feature, categories, selectedCategory } =
     useLoaderData<typeof loader>()
   const lastSubmission = useActionData<typeof action>()
   const id = useId()
@@ -230,6 +308,11 @@ export default function FormulaPage() {
               <div className="border-secondary-600 mt-10 w-full rounded-xl border-dashed shadow-none sm:mx-auto sm:p-1 md:border md:shadow-xl lg:p-7">
                 <Form className="h-full w-full" method="post" {...form.props}>
                   <AuthenticityTokenInput />
+                  <input
+                    type="hidden"
+                    name="intent"
+                    defaultValue="generateContent"
+                  />
                   <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
                     <div className="w-full space-y-6">
                       <div>
@@ -347,32 +430,15 @@ export default function FormulaPage() {
                       </p>
                     )}
                   </Flex>
-                  <Flex wrap gap="small">
-                    <Tooltip title="Copiar Contéudo para o área de transferência">
-                      <AntButton
-                        disabled={!executionResult}
-                        type="default"
-                        icon={<CopyOutlined />}
-                      >
-                        Copiar
-                      </AntButton>
-                    </Tooltip>
-
-                    <Tooltip title="Salvar Contéudo">
-                      <AntButton
-                        disabled={!executionResult}
-                        type="primary"
-                        icon={<BookOutlined />}
-                      >
-                        Salvar
-                      </AntButton>
-                    </Tooltip>
-                  </Flex>
                 </Flex>
+
                 {executionResult ? (
-                  <ReactMarkdown>
-                    {JSON.parse(executionResult).event}
-                  </ReactMarkdown>
+                  <BookmarkContent
+                    content={JSON.parse(executionResult).event}
+                    feature={feature.keyname}
+                    category={selectedCategory}
+                    session={session.id}
+                  />
                 ) : (
                   lastSubmission?.executionArn && (
                     <div>Aguardando o resultado da execução...</div>
