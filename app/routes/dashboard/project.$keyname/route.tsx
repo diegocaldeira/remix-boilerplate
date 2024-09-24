@@ -319,7 +319,7 @@ export default function ProjectsPage() {
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
                       Detalhamento Estratégico
-                      <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500 md:text-6xl lg:text-6xl">
+                      <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500 md:text-6xl lg:text-6xl">
                         <span className="relative text-white">
                           {" "}
                           {feature.name}
@@ -693,6 +693,23 @@ export default function ProjectsPage() {
 
             <div className="my-16"></div>
 
+            <div className="mb-8 w-full max-w-xl xl:max-w-2xl">
+              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
+                <b>
+                  <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500 md:text-6xl lg:text-6xl">
+                    <span className="relative text-white">
+                      Explore e Aprofunde-se nos Conteúdos Gerados
+                    </span>
+                  </span>
+                </b>
+              </h1>
+              <p className="font-ivyora-display relative mt-10 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
+                Descubra como cada conteúdo criado pela IA está alinhado com
+                suas estratégias de marca. Analise e refine os textos que
+                fortalecem sua presença no mercado e aumentam a confiança do seu
+                público, maximizando o impacto das suas campanhas.
+              </p>
+            </div>
             <Table
               columns={columnsFiltered}
               dataSource={contentGeneratedCollection}
