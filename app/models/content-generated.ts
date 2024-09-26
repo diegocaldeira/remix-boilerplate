@@ -16,6 +16,15 @@ export const getContentGeneratedByKeyname = async (
   })
 }
 
+export const getContentGeneratedByUserIdAndKeyname = async (
+  keyname: ContentGenerated["keyname"],
+  userId: ContentGenerated["userId"]
+) => {
+  return await prisma.contentGenerated.findMany({
+    where: { keyname: { equals: keyname }, userId: { equals: userId } },
+  })
+}
+
 export const getAllContentGenerated = async () => {
   return await prisma.contentGenerated.findMany({})
 }

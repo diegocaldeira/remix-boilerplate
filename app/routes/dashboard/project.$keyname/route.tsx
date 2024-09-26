@@ -17,15 +17,7 @@ import {
   ChevronDoubleRightIcon,
   ChevronDownIcon,
 } from "@heroicons/react/20/solid"
-import {
-  Button as AntButton,
-  Flex,
-  message,
-  Steps,
-  Table,
-  Tag,
-  theme,
-} from "antd"
+import { Button as AntButton, Flex, List, Steps, Tag, theme } from "antd"
 import { NotebookPen, ScanText, Webhook } from "lucide-react"
 import { AuthenticityTokenInput } from "remix-utils/csrf/react"
 import { z } from "zod"
@@ -62,21 +54,18 @@ const columns = [
     filters: [],
     filterMode: "tree",
     filterSearch: true,
-    onFilter: (value, record) => record.title.startsWith(value),
+    onFilter: (value: any, record: any) => record.title.startsWith(value),
     width: "60%",
   },
   {
     title: "Categoria",
     dataIndex: "categoryName",
     filters: [],
-    onFilter: (value, record) => record.categoryName.startsWith(value),
+    onFilter: (value: any, record: any) =>
+      record.categoryName.startsWith(value),
     filterSearch: true,
   },
 ]
-
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra)
-}
 
 declare global {
   interface BigInt {
@@ -241,13 +230,8 @@ export default function ProjectsPage() {
   const [selectedAITool, selectAITool] = React.useState("")
   const [selectedCategory, selectCategory] = React.useState("")
 
-  const {
-    categories,
-    features,
-    copywritingCards,
-    columnsFiltered,
-    contentGeneratedCollection,
-  } = useLoaderData<typeof loader>()
+  const { categories, features, copywritingCards, contentGeneratedCollection } =
+    useLoaderData<typeof loader>()
 
   const { token } = theme.useToken()
   const [current, setCurrent] = useState(0)
@@ -671,22 +655,21 @@ export default function ProjectsPage() {
                   }}
                   onClick={() => prev()}
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="mr-3 size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
                   Voltar
-                </AntButton>
-              )}
-
-              {current < steps.length - 1 && (
-                <AntButton type="primary" onClick={() => next()}>
-                  Próximo
-                </AntButton>
-              )}
-
-              {current === steps.length - 1 && (
-                <AntButton
-                  type="primary"
-                  onClick={() => message.success("Processing complete!")}
-                >
-                  Pronto! Vamos Gerar Conteúdo
                 </AntButton>
               )}
             </div>
@@ -703,17 +686,54 @@ export default function ProjectsPage() {
                   </span>
                 </b>
               </h1>
-              <p className="font-ivyora-display relative mt-10 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
+              <p className="font-ivyora-display text-md relative mt-10 bg-black bg-gradient-to-br bg-clip-text leading-8 text-gray-500 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
                 Descubra como cada conteúdo criado pela IA está alinhado com
                 suas estratégias de marca. Analise e refine os textos que
                 fortalecem sua presença no mercado e aumentam a confiança do seu
                 público, maximizando o impacto das suas campanhas.
               </p>
+
+              <p className="text-dark mt-8 text-sm font-semibold leading-6 dark:text-sky-400">
+                Conteúdos gerados recentemente
+              </p>
             </div>
-            <Table
-              columns={columnsFiltered}
+
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={{
+                onChange: (page) => {
+                  console.log(page)
+                },
+                pageSize: 3,
+              }}
               dataSource={contentGeneratedCollection}
-              onChange={onChange}
+              footer={
+                <div>
+                  <b>AI Caldeira</b> | Seus conteúdos gerados
+                </div>
+              }
+              renderItem={(item) => (
+                <List.Item key={item.title}>
+                  <List.Item.Meta
+                    title={
+                      <a href={"/dashboard/content/" + item.keyname}>
+                        {item.title}
+                      </a>
+                    }
+                    description={item.description}
+                  />
+                  <Flex className="my-7 lg:mb-0" gap="8px 0" wrap>
+                    <Tag color="default">
+                      {
+                        categories.filter(
+                          (category) => category.keyname === item.categoryId
+                        )[0].name
+                      }{" "}
+                    </Tag>
+                  </Flex>
+                </List.Item>
+              )}
             />
           </div>
         )

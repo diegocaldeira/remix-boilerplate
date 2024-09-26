@@ -5,7 +5,7 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node"
-import { Form, useActionData } from "@remix-run/react"
+import { Form, NavLink, useActionData } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
@@ -24,7 +24,6 @@ import { validateCsrfToken } from "@/lib/server/csrf.server"
 import { mergeMeta } from "@/lib/server/seo/seo-helpers"
 import { authenticator } from "@/services/auth.server"
 import { prisma } from "@/services/db/db.server"
-import { getAllCategoriesActive } from "@/models/category"
 import { getSubscriptionByUserId } from "@/models/subscription"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -47,11 +46,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     failureRedirect: "/login",
   })
 
-  const categories = await getAllCategoriesActive()
   const subscription = await getSubscriptionByUserId(session.id)
 
   return {
-    categories,
     subscription,
   }
 }
@@ -68,9 +65,6 @@ const schema = z.object({
     required_error: "Por favor, entre com o nome do seu projeto.",
   }),
   about: z.string({
-    required_error: "Por favor, conte um pouco sobre o seu projeto",
-  }),
-  categoriesSelected: z.string({
     required_error: "Por favor, conte um pouco sobre o seu projeto",
   }),
 })
@@ -176,27 +170,52 @@ export default function ProjectsPage() {
           transform="translate(-108)"
         />
       </svg>
-      <div className="mx-auto max-w-7xl lg:px-8">
-        <div className="mx-auto max-w-7xl px-4 pb-32 pt-2 lg:px-2">
-          <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+      <div className="mx-auto max-w-7xl lg:px-2">
+        <div className="mx-auto max-w-7xl px-2 pb-20 pt-2 lg:px-2">
+          <div className="mx-auto max-w-2xl gap-x-10 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div className="w-full max-w-xl xl:max-w-2xl">
-              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
-                <b>Organize Suas Campanhas com Projetos Personalizados</b>
+              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-6xl">
+                <b>Gerencie Suas Campanhas de Forma Inteligente e Eficiente</b>
               </h1>
               <p className="font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
-                Crie projetos ou campanhas para agrupar seus textos relacionados
-                e mantenha suas iniciativas de marketing organizadas. Com opções
-                de personalização de tom, suporte multilíngue e conteúdo livre
-                de alucinações, seus textos serão precisos e alinhados com as
-                necessidades específicas de cada campanha, sem a necessidade de
-                prompts adicionais.
+                Inicie novos projetos ou campanhas para organizar seus textos de
+                marketing em um só lugar. Nossa plataforma oferece
+                personalização de tom, suporte multilíngue e criação de conteúdo
+                sem alucinações, garantindo que suas mensagens sejam claras e
+                eficazes, sempre alinhadas com as necessidades do seu público.
+                Organize suas ideias e transforme estratégias em resultados com
+                facilidade.
+              </p>
+              <p className="flex-grow pt-3 text-sm text-muted-foreground">
+                <NavLink
+                  to={"/dashboard/projects"}
+                  className="my-10 rounded-lg border-slate-300 py-2 text-left hover:border-solid"
+                >
+                  <Button size="sm" variant="link" className="px-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="mr-3 size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    Voltar
+                  </Button>
+                </NavLink>
               </p>
             </div>
             <div className="mt-20 flex justify-end gap-8 sm:justify-start lg:mt-0 lg:pl-0">
               <div className="ml-auto w-1/4 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
                     alt=""
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                   />
@@ -207,7 +226,7 @@ export default function ProjectsPage() {
               <div className="mr-auto w-1/4 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
+                    src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
                     alt=""
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                   />
@@ -215,7 +234,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;crop=focalpoint&amp;fp-x=.4&amp;w=396&amp;h=528&amp;q=80"
+                    src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;crop=focalpoint&amp;fp-x=.4&amp;w=396&amp;h=528&amp;q=80"
                     alt=""
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                   />
@@ -226,7 +245,7 @@ export default function ProjectsPage() {
               <div className="w-1/4 flex-none space-y-8 pt-32 sm:pt-0">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;crop=left&amp;w=400&amp;h=528&amp;q=80"
+                    src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;crop=left&amp;w=400&amp;h=528&amp;q=80"
                     alt=""
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                   />
@@ -234,7 +253,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
+                    src="https://images.unsplash.com/photo-1543269664-56d93c1b41a6?ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;h=528&amp;q=80"
                     alt=""
                     className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                   />
@@ -244,13 +263,8 @@ export default function ProjectsPage() {
             </div>
           </div>
         </div>
-        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 lg:max-w-7xl lg:grid-cols-1">
+        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 px-2 md:max-w-7xl lg:grid-cols-1">
           <Form className="h-full w-full" {...form.props} method="post">
-            <input
-              type="hidden"
-              name="categoriesSelected"
-              value={JSON.stringify(selectedItems)}
-            />
             <AuthenticityTokenInput />
 
             <Disclosure
@@ -266,8 +280,9 @@ export default function ProjectsPage() {
                   </h1>
                   <small>
                     Inicie seu projeto fornecendo um nome claro e uma breve
-                    descrição. Isso ajudará você a manter o foco e a orientar
-                    suas campanhas de marketing para resultados impactantes
+                    descrição. <br />
+                    Isso ajudará você a manter o foco e a orientar suas
+                    campanhas de marketing para resultados impactantes
                   </small>
                 </div>
                 <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
@@ -281,6 +296,7 @@ export default function ProjectsPage() {
                     </div>
                     <div className="mt-2">
                       <Input
+                        error={name.error}
                         id="name"
                         type="text"
                         placeholder=""
@@ -301,10 +317,12 @@ export default function ProjectsPage() {
                     </div>
                     <div className="mt-2">
                       <TextArea
+                        error={about.error}
                         id="about"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         defaultValue={""}
                         required
+                        rows={6}
                         {...conform.input(about, { type: "text" })}
                       />
                     </div>
@@ -317,11 +335,11 @@ export default function ProjectsPage() {
             </Disclosure>
 
             <div className="space-y-12">
-              <div className="pb-24">
-                <div className=" mt-10 gap-x-6 border-gray-900/10 lg:col-span-1">
+              <div className="mb-24 pb-24">
+                <div className="mt-10 gap-x-6 border-gray-900/10">
                   <Button
                     type="submit"
-                    className="w-full rounded-md bg-indigo-600 px-3 py-6 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="rounded-md bg-indigo-600 px-3 py-6 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Pronto para começar
                     <ArrowRight className="ml-2 h-5 w-5" />

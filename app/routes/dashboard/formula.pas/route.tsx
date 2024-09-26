@@ -75,6 +75,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 }
 
 const saveContent = async (
+  project_id: string,
   content: string,
   feature_id: string,
   category_id: string,
@@ -92,6 +93,7 @@ const saveContent = async (
         userId: session_id,
         toolId: feature_id,
         categoryId: category_id,
+        projectId: project_id,
         isActive: true,
       },
     })
@@ -102,6 +104,9 @@ const saveContent = async (
 }
 
 const bookmarkSchema = z.object({
+  project_id: z.string({
+    required_error: "Por favor, entre com o código de verificação",
+  }),
   feature_id: z.string({
     required_error: "Por favor, entre com o código de verificação",
   }),
@@ -184,6 +189,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     case "savingContent":
       console.log("saving content with formula PAS")
       await saveContent(
+        formData.project_id,
         formData.content,
         formData.feature_id,
         formData.category_id,
@@ -434,6 +440,7 @@ export default function FormulaPage() {
 
                 {executionResult ? (
                   <BookmarkContent
+                    project={project}
                     content={JSON.parse(executionResult).event}
                     feature={feature.keyname}
                     category={selectedCategory}
@@ -454,12 +461,30 @@ export default function FormulaPage() {
             marginTop: 34,
           }}
         >
-          <NavLink
-            to={"/dashboard/project/" + project}
-            className="m-6 rounded-lg border-slate-300 px-6 py-2 text-left hover:border-solid"
-          >
-            Voltar
-          </NavLink>
+          <p className="flex-grow pb-12 pt-3 text-sm text-muted-foreground">
+            <NavLink
+              to={"/dashboard/project/" + project}
+              className="my-10 rounded-lg border-slate-300 py-2 text-left hover:border-solid"
+            >
+              <Button size="sm" variant="link" className="px-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="mr-3 size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Voltar
+              </Button>
+            </NavLink>
+          </p>
         </div>
       </div>
     </div>

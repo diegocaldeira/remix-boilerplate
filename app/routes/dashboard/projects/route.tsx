@@ -97,18 +97,19 @@ export default function ProjectsPage() {
           transform="translate(-108)"
         />
       </svg>
-      <div className="mx-auto max-w-7xl lg:px-8">
-        <div className="mx-auto max-w-7xl px-6 pb-32 pt-2 lg:px-8">
+      <div className="max-w-8xl mx-auto lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 pb-20 pt-2 lg:px-2">
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div className="w-full max-w-xl xl:max-w-2xl">
-              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
-                <b>Seus Projetos e Campanhas</b>
+              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-6xl">
+                <b>Gerencie Suas Campanhas e Projetos de Forma Eficiente</b>
               </h1>
               <p className="font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
-                Organize seus projetos com escritores IA especializados, focados
-                em seu setor. Aumente a autoridade e a confiança na marca,
-                organizando suas campanhas em um único lugar para alcançar
-                resultados impactantes.
+                Centralize todos os seus projetos e campanhas com o suporte de
+                escritores IA especializados no seu setor. Eleve a autoridade e
+                a confiança da sua marca ao organizar e gerenciar seu conteúdo
+                de forma estratégica, com tudo em um só lugar para garantir
+                resultados mais rápidos e eficazes.
               </p>
             </div>
             <div className="mt-20 flex justify-end gap-8 sm:justify-start lg:mt-0 lg:pl-0">
@@ -163,14 +164,14 @@ export default function ProjectsPage() {
             </div>
           </div>
         </div>
-        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-7xl lg:grid-cols-1">
+        <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 pb-20 lg:max-w-7xl lg:grid-cols-1">
           <section>
             <ul className="grid grid-cols-1 gap-4 text-sm leading-6 sm:grid-cols-1 sm:px-0 sm:pb-8 sm:pt-6 lg:grid-cols-2 lg:p-4 xl:grid-cols-2 xl:px-8 xl:pb-8 xl:pt-6">
               <li className="flex items-center rounded-lg">
                 <Form method="post" className="h-full w-full">
                   <input type="hidden" name="action" value="create" />
                   <Button
-                    className="font-ivyora-display h-full w-full space-y-3 rounded-lg p-4 dark:from-white dark:to-[hsla(0,0%,100%,.5)]"
+                    className="font-ivyora-display h-full w-full space-y-3 rounded-lg border-2 border-dashed border-sky-500 bg-white p-4 text-black ring-1 ring-slate-900/5 hover:border-0 hover:bg-zinc-900 hover:text-white"
                     type="submit"
                   >
                     <FolderPlus className="mr-2 h-6 w-6" />
@@ -178,6 +179,7 @@ export default function ProjectsPage() {
                   </Button>
                 </Form>
               </li>
+
               {features.map((feature) => {
                 return (
                   <li
