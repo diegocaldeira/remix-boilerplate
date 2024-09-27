@@ -78,8 +78,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     failureRedirect: "/login",
   })
 
-  console.log("creating a new project")
-
   const submission = await parse(formData, {
     schema: schema.superRefine(async (data, ctx) => {
       const existingProject = await prisma.project.findFirst({
@@ -275,20 +273,20 @@ export default function ProjectsPage() {
             >
               <DisclosureButton className="group flex w-full items-start justify-between">
                 <div className="wrap-balance bg-black bg-gradient-to-br bg-clip-text text-left leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
-                  <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
+                  <h1 className="wrap-balance my-4 w-full bg-black bg-gradient-to-br bg-clip-text text-left text-2xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:leading-tight">
                     Crie um novo projeto
                   </h1>
-                  <small>
+                  <p>
                     Inicie seu projeto fornecendo um nome claro e uma breve
                     descrição. <br />
                     Isso ajudará você a manter o foco e a orientar suas
                     campanhas de marketing para resultados impactantes
-                  </small>
+                  </p>
                 </div>
                 <ChevronDownIcon className="size-5 fill-transparent/80 group-data-[open]:rotate-180 group-data-[hover]:fill-transparent/50 dark:from-white dark:to-[hsla(0,0%,100%,.5)]" />
               </DisclosureButton>
 
-              <DisclosurePanel className="mt-2 py-10 text-sm/5 leading-6">
+              <DisclosurePanel className="mt-2 pt-10 text-sm/5 leading-6">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-6 lg:col-span-3">
                     <div className="flex items-center justify-between">
@@ -336,7 +334,7 @@ export default function ProjectsPage() {
 
             <div className="space-y-12">
               <div className="mb-24 pb-24">
-                <div className="mt-10 gap-x-6 border-gray-900/10">
+                <div className="gap-x-6 border-gray-900/10">
                   <Button
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-6 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

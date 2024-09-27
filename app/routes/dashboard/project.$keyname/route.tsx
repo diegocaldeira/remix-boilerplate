@@ -297,9 +297,9 @@ export default function ProjectsPage() {
       {features.map((feature) => {
         return (
           <div key={feature.id} className="mx-auto max-w-7xl lg:px-8">
-            <div className="mx-auto max-w-7xl px-4 lg:px-8 lg:pb-32">
-              <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-                <div className="w-full max-w-xl xl:max-w-2xl">
+            <div className="mx-auto max-w-6xl px-4 lg:px-8 lg:pb-32">
+              <div className="mx-auto max-w-xl gap-x-6 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+                <div className="w-full max-w-lg xl:max-w-2xl">
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
                       Detalhamento Estratégico
@@ -312,79 +312,92 @@ export default function ProjectsPage() {
                     </b>
                   </h1>
                   <p className="font-ivyora-display relative mt-6 bg-black bg-gradient-to-br bg-clip-text text-lg leading-8 text-gray-600 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
-                    Vamos explorar em profundidade as estratégias e conteúdos
-                    criados. Veja como cada elemento do projeto contribui para
-                    fortalecer a presença da sua marca e aumentar a confiança do
-                    público.
+                    Descubra como cada conteúdo criado pela IA está alinhado com
+                    suas estratégias de marca. Analise e refine os textos que
+                    fortalecem sua presença no mercado e aumentam a confiança do
+                    seu público, maximizando o impacto das suas campanhas.
+                  </p>
+                  <p className="flex-grow pb-12 pt-3 text-sm text-muted-foreground">
+                    <NavLink
+                      to={"/dashboard/projects"}
+                      className="my-10 rounded-lg border-slate-300 py-2 text-left hover:border-solid"
+                    >
+                      <Button size="md" variant="link" className="px-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="mr-3 size-7"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                          />
+                        </svg>
+                        Voltar
+                      </Button>
+                    </NavLink>
                   </p>
                 </div>
-                <div className="mt-10 flex justify-end gap-8 sm:justify-start lg:mt-0 lg:pl-0">
-                  <div className="ml-auto hidden w-2/4 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 md:block lg:order-last lg:block lg:pt-36 xl:order-none xl:pt-80">
-                    <div className="relative">
-                      <NavLink to="/dashboard/copywriting">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <div>
-                            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                              <ScanText />
-                            </span>
-                          </div>
-                          <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            AI Copywriting
-                          </h1>
-                          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            Transforme suas ideias em conteúdo de marketing
-                            cativante sem esforço, nossas poderosas ferramentas
-                            de IA estão aqui para ajudá-lo a criar textos
-                            atraentes com facilidade.
-                          </p>
+                <div className="flex justify-end gap-8 border border-dashed sm:justify-start lg:px-4">
+                  <div className="mb-8 w-full max-w-xl xl:max-w-2xl">
+                    <h1 className="font-ivyora-display mx-4 bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-4xl lg:text-4xl">
+                      <b>
+                        <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500">
+                          <span className="relative text-white">
+                            Explore e Aprofunde-se nos Conteúdos Gerados
+                          </span>
+                        </span>
+                      </b>
+                    </h1>
+                    <p className="text-dark mx-5 mb-5 mt-8 text-sm font-semibold leading-6 dark:text-sky-400">
+                      Conteúdos gerados recentemente
+                    </p>
+                    <List
+                      itemLayout="vertical"
+                      size="large"
+                      pagination={{
+                        onChange: (page) => {
+                          console.log(page)
+                        },
+                        pageSize: 3,
+                      }}
+                      dataSource={contentGeneratedCollection}
+                      footer={
+                        <div className="mx-auto mt-3 text-center">
+                          <b>AI Caldeira</b> | Seus conteúdos gerados
                         </div>
-                      </NavLink>
-                      <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                    </div>
-                  </div>
-
-                  <div className="mr-auto hidden w-2/4 flex-none space-y-8 sm:mr-0 sm:pt-52 md:block lg:block lg:pt-36">
-                    <div className="relative">
-                      <NavLink to="/dashboard/ai-writers">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <div>
-                            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                              <NotebookPen />
-                            </span>
-                          </div>
-                          <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            AI Writers
-                          </h1>
-                          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            Escritores de IA especializados e focados em seu
-                            negócio, nossa ferramenta economiza tempo e esforço
-                            e aumenta a produtividade.
-                          </p>
-                        </div>
-                      </NavLink>
-                      <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                    </div>
-
-                    <div className="relative">
-                      <NavLink to="/dashboard/ai-social">
-                        <div className="rounded-lg bg-white p-10 shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900">
-                          <div>
-                            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 text-white shadow-lg">
-                              <Webhook />
-                            </span>
-                          </div>
-                          <h1 className="mt-5 text-xl font-medium tracking-tight text-slate-900 dark:text-white">
-                            AI Social
-                          </h1>
-                          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 md:block lg:block">
-                            Descubra o futuro do marketing de mídia social com
-                            nossa IA, crie postagens e legendas sem esforço e
-                            eleve sua presença nas redes sociais.
-                          </p>
-                        </div>
-                      </NavLink>
-                      <div className="pointer-events-none absolute inset-0 rounded-xl"></div>
-                    </div>
+                      }
+                      renderItem={(item) => (
+                        <List.Item key={item.title}>
+                          <List.Item.Meta
+                            title={
+                              <a href={"/dashboard/content/" + item.keyname}>
+                                {item.title}
+                              </a>
+                            }
+                            description={
+                              <a href={"/dashboard/content/" + item.keyname}>
+                                {item.description}
+                              </a>
+                            }
+                          />
+                          <Flex className="my-7 lg:mb-0" gap="8px 0" wrap>
+                            <Tag color="default">
+                              {
+                                categories.filter(
+                                  (category) =>
+                                    category.keyname === item.categoryId
+                                )[0].name
+                              }{" "}
+                            </Tag>
+                          </Flex>
+                        </List.Item>
+                      )}
+                    />
                   </div>
                 </div>
               </div>
@@ -675,66 +688,6 @@ export default function ProjectsPage() {
             </div>
 
             <div className="my-16"></div>
-
-            <div className="mb-8 w-full max-w-xl xl:max-w-2xl">
-              <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
-                <b>
-                  <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500 md:text-6xl lg:text-6xl">
-                    <span className="relative text-white">
-                      Explore e Aprofunde-se nos Conteúdos Gerados
-                    </span>
-                  </span>
-                </b>
-              </h1>
-              <p className="font-ivyora-display text-md relative mt-10 bg-black bg-gradient-to-br bg-clip-text leading-8 text-gray-500 text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:max-w-md lg:max-w-none">
-                Descubra como cada conteúdo criado pela IA está alinhado com
-                suas estratégias de marca. Analise e refine os textos que
-                fortalecem sua presença no mercado e aumentam a confiança do seu
-                público, maximizando o impacto das suas campanhas.
-              </p>
-
-              <p className="text-dark mt-8 text-sm font-semibold leading-6 dark:text-sky-400">
-                Conteúdos gerados recentemente
-              </p>
-            </div>
-
-            <List
-              itemLayout="vertical"
-              size="large"
-              pagination={{
-                onChange: (page) => {
-                  console.log(page)
-                },
-                pageSize: 3,
-              }}
-              dataSource={contentGeneratedCollection}
-              footer={
-                <div>
-                  <b>AI Caldeira</b> | Seus conteúdos gerados
-                </div>
-              }
-              renderItem={(item) => (
-                <List.Item key={item.title}>
-                  <List.Item.Meta
-                    title={
-                      <a href={"/dashboard/content/" + item.keyname}>
-                        {item.title}
-                      </a>
-                    }
-                    description={item.description}
-                  />
-                  <Flex className="my-7 lg:mb-0" gap="8px 0" wrap>
-                    <Tag color="default">
-                      {
-                        categories.filter(
-                          (category) => category.keyname === item.categoryId
-                        )[0].name
-                      }{" "}
-                    </Tag>
-                  </Flex>
-                </List.Item>
-              )}
-            />
           </div>
         )
       })}

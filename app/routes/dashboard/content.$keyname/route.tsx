@@ -214,6 +214,7 @@ export default function ProjectsContentDetailsPage() {
                         className="h-500 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         defaultValue={feature.content}
                         required
+                        rows={20}
                         {...conform.input(content, { type: "text" })}
                       />
                     </div>
@@ -221,7 +222,7 @@ export default function ProjectsContentDetailsPage() {
 
                   <div className="sm:col-span-6 lg:col-span-4">
                     <div className="grid grid-cols-1 gap-y-8">
-                      <div className="col-span-7 mt-5 flex justify-between">
+                      <div className="col-span-7 mt-2 flex justify-between">
                         <p className="flex-grow text-sm text-muted-foreground">
                           <Button size="sm" variant="link" className="px-1">
                             <svg
