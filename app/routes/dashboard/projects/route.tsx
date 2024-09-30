@@ -184,7 +184,7 @@ export default function ProjectsPage() {
                 return (
                   <li
                     key={feature.keyname}
-                    className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-6 shadow-lg ring-1 ring-slate-900/5 hover:bg-sky-500 hover:ring-sky-500"
+                    className="group mx-auto block w-full space-y-3 rounded-lg bg-white p-6 shadow-lg ring-1 ring-slate-900/5 hover:bg-gradient-to-r hover:from-violet-900 hover:via-violet-500 hover:to-violet-800"
                   >
                     <Form method="post" className="h-full w-full">
                       <input type="hidden" name="action" value="details" />

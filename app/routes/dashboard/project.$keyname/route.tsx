@@ -303,7 +303,7 @@ export default function ProjectsPage() {
                   <h1 className="font-ivyora-display bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-7xl lg:text-7xl">
                     <b>
                       Detalhamento Estratégico
-                      <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500 md:text-6xl lg:text-6xl">
+                      <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-slate-800 before:via-indigo-500 before:to-slate-800 md:text-6xl lg:text-6xl">
                         <span className="relative text-white">
                           {" "}
                           {feature.name}
@@ -341,12 +341,22 @@ export default function ProjectsPage() {
                       </Button>
                     </NavLink>
                   </p>
+
+                  <p className="mx-auto flex-grow pb-24 pt-3 text-center text-sm text-muted-foreground md:mr-10 md:text-right">
+                    <Button
+                      type="submit"
+                      className="rounded-md bg-black px-12 py-6 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                      <ChevronDoubleRightIcon className="mr-2 h-5 w-5" />
+                      Gerar Conteúdo
+                    </Button>
+                  </p>
                 </div>
                 <div className="flex justify-end gap-8 border border-dashed sm:justify-start lg:px-4">
                   <div className="mb-8 w-full max-w-xl xl:max-w-2xl">
                     <h1 className="font-ivyora-display mx-4 bg-black bg-gradient-to-br bg-clip-text text-4xl tracking-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] md:text-4xl lg:text-4xl">
                       <b>
-                        <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-indigo-500 before:via-sky-500 before:to-emerald-500">
+                        <span className="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-gradient-to-r before:from-slate-800 before:via-indigo-900 before:to-slate-800">
                           <span className="relative text-white">
                             Explore e Aprofunde-se nos Conteúdos Gerados
                           </span>

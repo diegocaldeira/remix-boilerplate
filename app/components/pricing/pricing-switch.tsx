@@ -7,8 +7,8 @@ type PricingSwitchProps = {
 export const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
   <Tabs defaultValue="0" className="mx-auto w-40" onValueChange={onSwitch}>
     <TabsList>
-      <TabsTrigger value="0">Monthly</TabsTrigger>
-      <TabsTrigger value="1">Yearly</TabsTrigger>
+      <TabsTrigger value="0">Mensal</TabsTrigger>
+      <TabsTrigger value="1">Anual</TabsTrigger>
     </TabsList>
   </Tabs>
 )

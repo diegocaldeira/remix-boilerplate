@@ -72,7 +72,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const planId = formData.get("planId")
-  const interval = formData.get("interval") as "month" | "year"
+  const interval = formData.get("interval") as "mensal" | "anual"
   const currency = formData.get("currency") as string
 
   const session = await authenticator.isAuthenticated(request, {
@@ -121,21 +121,27 @@ export default function PlansPage() {
 
   return (
     <div>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="wrap-balance mt-16 bg-black bg-gradient-to-br bg-clip-text text-center text-4xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
-            Pricing Plans
+      <div className="mx-auto max-w-7xl px-6 text-left lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h1 className="wrap-balance mt-16 bg-black bg-gradient-to-br bg-clip-text text-4xl font-medium leading-tight text-transparent dark:from-white dark:to-[hsla(0,0%,100%,.5)] sm:text-5xl sm:leading-tight">
+            Escolha o Plano Perfeito para Impulsionar Suas Campanhas
           </h1>
         </div>
-        <p className="wrap-balance mt-6 text-center text-lg font-light leading-7 text-muted-foreground">
-          {/* TODO: add content here @keyur */}
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-          quisquam, iusto voluptatem dolore voluptas non laboriosam soluta quos
-          quod eos! Sapiente archit
-        </p>
+        <div className="mx-auto max-w-5xl">
+          <p className="wrap-balance text-md mt-6 font-light leading-7">
+            Transforme suas ideias em campanhas de sucesso com nossos planos
+            personalizados para atender às suas necessidades. Oferecemos opções
+            que escalam com o seu crescimento.
+          </p>
+          <p className="wrap-balance text-md mt-6 font-light leading-7">
+            Acesse ferramentas de IA avançadas, crie conteúdos irresistíveis e
+            veja sua marca ganhar destaque. Escolha o plano ideal e comece a
+            dominar o marketing com inteligência!
+          </p>
+        </div>
         <div className="mt-16 flex justify-center"></div>
         <PricingSwitch
-          onSwitch={(value) => setInterval(value === "0" ? "month" : "year")}
+          onSwitch={(value) => setInterval(value === "0" ? "Mensal" : "Anual")}
         />
 
         <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:max-w-5xl lg:grid-cols-3">
@@ -188,8 +194,8 @@ export default function PlansPage() {
                       type="submit"
                     >
                       {subscription?.planId === plan.id
-                        ? "Current Plan"
-                        : "Choose Plan"}
+                        ? "Seu Plano Ativo"
+                        : "Escolher Plano"}
                     </Button>
                   </Form>
                 </CTAContainer>
