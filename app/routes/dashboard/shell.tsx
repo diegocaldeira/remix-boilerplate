@@ -1,9 +1,9 @@
-import { useState } from "react"
+// import { useState } from "react"
 
-import { Logo } from "@/lib/brand/logo"
+// import { Logo } from "@/lib/brand/logo"
 // import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 // import { Sidebar } from "./sidebar"
 // import { SidebarContext } from "./sidebar.context"
@@ -45,6 +45,11 @@ export function Shell({ children }: Props) {
             </div> */}
             <div className="flex h-14 items-center space-x-3 px-8 pt-6">
               {/* TODO: drive this logo using brand config */}
+              <img
+                className="mt-1 h-32"
+                src="/app/lib/brand/logo-aicaldeira.png"
+                alt="Image Description"
+              />
             </div>
             <div className="flex items-start space-x-3">
               <UserNav />
