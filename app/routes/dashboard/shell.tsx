@@ -48,7 +48,7 @@ export function Shell({ children }: Props) {
               <img
                 className="mt-1 h-32"
                 src="/app/lib/brand/logo-aicaldeira.png"
-                alt="Image Description"
+                alt="AI Caldeira"
               />
             </div>
             <div className="flex items-start space-x-3">

@@ -171,7 +171,7 @@ export default function ProjectsPage() {
                 <Form method="post" className="h-full w-full">
                   <input type="hidden" name="action" value="create" />
                   <Button
-                    className="font-ivyora-display h-full w-full space-y-3 rounded-lg border-2 border-dashed border-sky-500 bg-white p-4 text-lg text-black ring-1 ring-slate-900/5 hover:bg-sky-500 hover:text-white hover:ring-sky-500"
+                    className="font-ivyora-display h-full w-full space-y-3 rounded-lg border-2 border-dashed border-violet-500 bg-white p-4 text-lg text-black ring-1 ring-slate-900/5 hover:border-solid hover:bg-gradient-to-r hover:from-violet-900 hover:via-violet-500 hover:to-violet-800 hover:text-white"
                     type="submit"
                   >
                     <FolderPlus className="mr-2 h-6 w-6" />
